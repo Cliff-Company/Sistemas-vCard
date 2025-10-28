@@ -1,0 +1,12 @@
+BEGIN:VCARD
+VERSION:4.0
+N:José;Luis;;;
+FN:José Luis Hernández
+ORG:Cliff and Company
+TITLE:Sistemas
+TEL;TYPE=work,voice:+52-473-134-6820
+EMAIL;TYPE=work:sistemas@cliff.com.mx
+URL:https://cliff.com.mx
+ADR;TYPE=work:;;Carretera Purísima-Manuel Doblado 702 123;Purísima de Bustos;Guanajuato;CP;México
+NOTE:Responsable de Sistemas en Cliff and Company.
+END:VCARD
