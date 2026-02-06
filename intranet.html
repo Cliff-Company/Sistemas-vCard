@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Cliff Intranet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0A0A0A;
+            --secondary: #1A1A1A;
+            --accent: #FFD700;
+            --accent-dark: #FFA500;
+            --accent-glow: rgba(255, 215, 0, 0.4);
+            --text-primary: #FFFFFF;
+            --text-secondary: #CCCCCC;
+            --surface: #141414;
+            --surface-light: #1F1F1F;
+            --border: rgba(255, 215, 0, 0.3);
+            --shadow: rgba(0, 0, 0, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--surface) 100%);
+            color: var(--text-primary);
+            overflow: hidden;
+            height: 100vh;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Background animated grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(90deg, rgba(255, 215, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(rgba(255, 215, 0, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            opacity: 0.5;
+            animation: gridPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes gridPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* ========== LAYOUT RESPONSIVE ========== */
+        .container {
+            height: 100vh;
+            display: grid;
+            grid-template-rows: 100px 1fr;
+            grid-template-columns: 280px 1fr;
+            gap: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Para pantallas más pequeñas */
+        @media (max-height: 800px) {
+            .container {
+                grid-template-rows: 80px 1fr;
+                grid-template-columns: 250px 1fr;
+            }
+
+            .header {
+                padding: 15px;
+            }
+
+            .logo-img {
+                max-width: 400px;
+            }
+
+            .sidebar {
+                padding: 20px 15px;
+                gap: 15px;
+            }
+
+            .nav-button {
+                padding: 20px 25px;
+                font-size: 22px;
+            }
+
+            .content {
+                padding: 30px 40px;
+            }
+        }
+
+        /* Para pantallas muy pequeñas */
+        @media (max-height: 600px) {
+            .container {
+                grid-template-rows: 70px 1fr;
+                grid-template-columns: 220px 1fr;
+            }
+
+            .nav-button {
+                padding: 15px 20px;
+                font-size: 18px;
+            }
+
+            .welcome-title {
+                font-size: 48px;
+            }
+
+            .welcome-text {
+                font-size: 20px;
+            }
+        }
+
+        /* Header */
+        .header {
+            grid-column: 1 / -1;
+            background: linear-gradient(180deg, var(--surface) 0%, var(--surface-light) 100%);
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            min-height: 80px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-img {
+            max-width: 500px;
+            height: auto;
+            max-height: 60px;
+            object-fit: contain;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: scanLine 3s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .logo-container {
+            text-align: center;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Estilos para la información del usuario */
+        #current-user {
+            color: var(--accent);
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 600;
+            padding: 8px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Badges para roles - NUEVOS COLORES */
+        .role-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 6px;
+            display: inline-block;
+        }
+
+        .admin-badge {
+            background: #FFD700;
+            /* Dorado - Máximo poder */
+            color: #000;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+        }
+
+        .directivo-badge {
+            background: #9C27B0;
+            /* Púrpura - Alta dirección */
+            color: white;
+            box-shadow: 0 0 8px rgba(156, 39, 176, 0.3);
+        }
+
+        .comite-badge {
+            background: #2196F3;
+            /* Azul profesional - Comité */
+            color: white;
+            box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
+        }
+
+        .adn-badge {
+            background: #4CAF50;
+            /* Verde - Grupo ADN */
+            color: white;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+        }
+
+        .empleado-badge {
+            background: #607D8B;
+            /* Gris azulado - Empleado base */
+            color: white;
+            box-shadow: 0 0 8px rgba(96, 125, 139, 0.3);
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            background: var(--surface-light);
+            border-right: 2px solid var(--border);
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            animation: slideInLeft 0.8s ease-out;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, var(--accent), transparent);
+            opacity: 0.3;
+        }
+
+        .nav-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 28px;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 15px;
+            padding-left: 10px;
+            text-align: center;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            padding: 22px 25px;
+            font-size: 22px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+            letter-spacing: 1px;
+            width: 100%;
+            white-space: nowrap;
+        }
+
+        .nav-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-button:hover::before {
+            left: 100%;
+        }
+
+        .nav-button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 20px;
+            width: 8px;
+            height: 8px;
+            border-right: 2px solid var(--accent);
+            border-bottom: 2px solid var(--accent);
+            transform: translateY(-50%) rotate(-45deg);
+            transition: all 0.3s ease;
+        }
+
+        .nav-button:hover {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--surface) 100%);
+            border-color: var(--accent);
+            transform: translateX(8px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        .nav-button:active {
+            transform: translateX(8px) scale(0.98);
+        }
+
+        .nav-button.active {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--surface) 100%);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px var(--accent-glow), inset 0 0 15px rgba(255, 215, 0, 0.1);
+        }
+
+        .nav-button.active::after {
+            right: 18px;
+        }
+
+        /* Sección de navegación con scroll si es necesario */
+        .nav-buttons-container {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+            margin-bottom: 15px;
+        }
+
+        .nav-buttons-container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .nav-buttons-container::-webkit-scrollbar-track {
+            background: var(--surface);
+            border-radius: 3px;
+        }
+
+        .nav-buttons-container::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 3px;
+        }
+
+        /* Content Area */
+        .content {
+            padding: 35px 45px;
+            overflow-y: auto;
+            animation: fadeIn 1s ease-out;
+            height: 100%;
+        }
+
+        .content.full-iframe {
+            padding: 0;
+        }
+
+        .content.full-iframe iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .content::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .content::-webkit-scrollbar-track {
+            background: var(--surface);
+            border-radius: 8px;
+        }
+
+        .content::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 8px;
+        }
+
+        .welcome-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Logo animado con imagen grande y halo blanco */
+        .logo-animado {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 50px;
+            animation: pulse-gentle 3s ease-in-out infinite;
+        }
+
+        /* Halo blanco sutil alrededor */
+        .logo-animado::before {
+            content: '';
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle at center,
+                    rgba(255, 255, 255, 0.25) 0%,
+                    rgba(255, 255, 255, 0.15) 30%,
+                    rgba(255, 255, 255, 0.05) 50%,
+                    transparent 70%);
+            z-index: 1;
+            animation: halo-pulse 4s ease-in-out infinite;
+        }
+
+        /* IMAGEN MÁS GRANDE */
+        .logo-animado img {
+            width: 240px;
+            height: 240px;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+            filter: brightness(1.05) contrast(1.1);
+        }
+
+        @keyframes pulse-gentle {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        @keyframes halo-pulse {
+
+            0%,
+            100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.9;
+                transform: scale(1.05);
+            }
+        }
+
+        /* Versión responsive para mantener proporciones */
+        @media (max-height: 800px) {
+            .logo-animado {
+                margin-bottom: 40px;
+            }
+
+            .logo-animado::before {
+                width: 230px;
+                height: 230px;
+            }
+
+            .logo-animado img {
+                width: 210px;
+                height: 210px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .logo-animado {
+                margin-bottom: 30px;
+            }
+
+            .logo-animado::before {
+                width: 200px;
+                height: 200px;
+            }
+
+            .logo-animado img {
+                width: 180px;
+                height: 180px;
+            }
+        }
+
+        .welcome-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 52px;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .welcome-text {
+            font-size: 22px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .content-header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .content-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 46px;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .content-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        /* Video Grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .video-item {
+            background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
+            border: 2px solid var(--border);
+            border-radius: 14px;
+            padding: 18px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px var(--shadow);
+            border-color: var(--accent);
+        }
+
+        .video-item iframe {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .video-item p {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 18px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Utility animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Touch feedback */
+        .touch-feedback {
+            position: fixed;
+            pointer-events: none;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            animation: ripple 0.6s ease-out;
+            z-index: 9999;
+        }
+
+        @keyframes ripple {
+            from {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            to {
+                width: 200px;
+                height: 200px;
+                opacity: 0;
+            }
+        }
+
+        /* Estilos para el logout - FIJADO EN LA PARTE INFERIOR */
+        .user-section {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        #logout-btn {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        #logout-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Scroll personalizado para navegadores modernos */
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: var(--surface);
+            border-radius: 3px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border-radius: 3px;
+        }
+
+        /* Para Firefox */
+        .sidebar {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--surface);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo-container">
+                <img src="img/logo.png" alt="Cliff and Company" class="logo-img">
+            </div>
+        </div>
+
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="nav-title">MENÚ</div>
+
+            <!-- Contenedor para botones con scroll si es necesario -->
+            <div class="nav-buttons-container">
+                <button class="nav-button active" data-section="inicio">Inicio</button>
+                <button class="nav-button" data-section="adn">ADN Cliff</button>
+                <button class="nav-button" data-section="avisos">Avisos</button>
+                <button class="nav-button" data-section="humanos">RH</button>
+                <button class="nav-button" data-section="docs" id="docs-button">Reglamento</button>
+            </div>
+
+            <!-- Sección de usuario y logout -->
+            <div class="user-section">
+                <div id="current-user"></div>
+                <button id="logout-btn">Cerrar Sesión</button>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content" id="content-area">
+            <!-- Welcome Screen - Se carga dinámicamente desde JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // ========== CONFIGURACIÓN DE ROLES ==========
+        const permisosPorRol = {
+            'admin': {
+                nombre: 'Administrador',
+                permisos: ['inicio', 'adn', 'avisos', 'humanos', 'docs'],
+                color: 'admin'
+            },
+            'directivo': {
+                nombre: 'Directivo',
+                permisos: ['inicio', 'adn', 'avisos', 'humanos'],
+                color: 'directivo'
+            },
+            'comite': {
+                nombre: 'Comité',
+                permisos: ['inicio', 'adn', 'avisos', 'humanos'],
+                color: 'comite'
+            },
+            'adn': {
+                nombre: 'Grupo ADN',
+                permisos: ['inicio', 'adn', 'avisos'],
+                color: 'adn'
+            },
+            'empleado': {
+                nombre: 'Empleado',
+                permisos: ['inicio', 'adn', 'avisos'],
+                color: 'empleado'
+            }
+        };
+
+        // ASIGNAR ROLES A USUARIOS
+        const rolesUsuarios = {
+            // ADMINISTRADORES
+            'luis': 'admin',
+
+            // GRUPO ADN (15 usuarios)
+            'tovar': 'adn',
+            'marisela': 'adn',
+            'laura': 'adn',
+            'rosy': 'adn',
+            'maikel': 'adn',
+            'david': 'adn',
+            'pepe': 'adn',
+            'pamela': 'adn',
+            'patricia': 'adn',
+            'hugo': 'adn',
+            'cesar': 'adn',
+            'xavier': 'adn',
+            'max': 'adn',
+            'jorge': 'adn',
+            'capac': 'adn',
+
+            // COMITÉ (5 usuarios)
+            'sara': 'comite',
+            'zepeda': 'comite',
+            'leonardo': 'comite',
+            'armando': 'comite',
+            'angel': 'comite',
+
+            // DIRECTIVOS (2 usuarios)
+            'josealfredo': 'directivo',
+            'gerardo': 'directivo'
+
+            // NOTA: Los usuarios que no estén en esta lista serán 'empleado' por defecto
+        };
+        
+        let usuarioInfo = null;
+        let rolUsuario = null;
+        let permisosUsuario = [];
+
+        // ========== FUNCIONES PRINCIPALES ==========
+        function obtenerUsuarioActual() {
+            const userData = localStorage.getItem('currentUser');
+
+            if (!userData) {
+                return null;
+            }
+
+            return JSON.parse(userData);
+        }
+
+        function obtenerRolUsuario(username) {
+            const userLower = username.toLowerCase();
+            return rolesUsuarios[userLower] || 'empleado';
+        }
+
+        function aplicarPermisosEnUI() {
+            const navButtons = document.querySelectorAll('.nav-button');
+            const userDisplay = document.getElementById('current-user');
+
+            // Obtener información del rol
+            const infoRol = permisosPorRol[rolUsuario];
+
+            // Mostrar nombre completo y rol
+            if (userDisplay && infoRol && usuarioInfo && usuarioInfo.nombreCompleto) {
+                userDisplay.innerHTML = `
+                    <div style="font-size: 16px; margin-bottom: 5px;">${usuarioInfo.nombreCompleto}</div>
+                    <span class="role-badge ${infoRol.color}-badge">
+                        ${infoRol.nombre}
+                    </span>
+                `;
+            } else if (userDisplay && infoRol && usuarioInfo) {
+                userDisplay.innerHTML = `
+                    <div style="font-size: 16px; margin-bottom: 5px;">${usuarioInfo.username}</div>
+                    <span class="role-badge ${infoRol.color}-badge">
+                        ${infoRol.nombre}
+                    </span>
+                `;
+            }
+
+            // Mostrar/ocultar botones según permisos
+            navButtons.forEach(button => {
+                const section = button.getAttribute('data-section');
+
+                if (section === 'inicio') return;
+
+                if (permisosUsuario.includes(section)) {
+                    button.style.display = 'block';
+                } else {
+                    button.style.display = 'none';
+                }
+            });
+        }
+
+        function verificarPermisoSeccion(section) {
+            if (section === 'inicio') return true;
+            return permisosUsuario.includes(section);
+        }
+
+        function personalizarMensajeBienvenida() {
+            const welcomeTitle = document.querySelector('.welcome-title');
+            const welcomeText = document.querySelector('.welcome-text');
+
+            if (welcomeTitle && welcomeText && usuarioInfo) {
+                let nombreMostrar = usuarioInfo.username;
+
+                if (usuarioInfo.nombreCompleto) {
+                    nombreMostrar = usuarioInfo.nombreCompleto.split(' ')[0];
+                }
+
+                // Mensajes personalizados por rol
+                const mensajesPorRol = {
+                    'admin': `Bienvenido ${nombreMostrar}. Como Administrador, tienes acceso completo a todas las secciones.`,
+                    'directivo': `Bienvenido ${nombreMostrar}. Como Directivo, tienes acceso a la mayoría de las secciones estratégicas.`,
+                    'comite': `Bienvenido ${nombreMostrar}. Como miembro del Comité, tienes acceso a información administrativa.`,
+                    'adn': `Bienvenido ${nombreMostrar}. Como miembro del Grupo ADN, mantente informado sobre nuestra cultura.`,
+                    'empleado': `Bienvenido ${nombreMostrar}. Explora nuestro catálogo de calzado de protección y encuentra la solución perfecta para tu seguridad laboral.`
+                };
+
+                welcomeTitle.textContent = `Bienvenido ${nombreMostrar}`;
+                welcomeText.textContent = mensajesPorRol[rolUsuario] || mensajesPorRol['empleado'];
+            }
+        }
+
+        // ========== SISTEMA DE NAVEGACIÓN ==========
+        const navButtons = document.querySelectorAll('.nav-button');
+        const contentArea = document.getElementById('content-area');
+
+        // Content templates - TODAS USAN LA MISMA ESTRUCTURA CON mont.png
+        const contentTemplates = {
+            inicio: `
+                <div class="welcome-screen fade-in">
+                    <div class="logo-animado">
+                        <img src="img/mont.png" alt="Logo empresa" class="welcome-logo">
+                    </div>
+                    <h2 class="welcome-title">Bienvenido</h2>
+                    <p class="welcome-text">Explora nuestro catálogo de calzado de protección y encuentra la solución perfecta para tu seguridad laboral</p>
+                </div>
+            `,
+            adn: `
+                <div class="fade-in">
+                    <div class="content-header">
+                        <h2 class="content-title">ADN Cliff</h2>
+                        <p class="content-subtitle">Esta plataforma está diseñada para compartir materiales de capacitación y reforzar el conocimiento de todo el equipo de Cliff and Company.</p>
+                    </div>
+                    <div class="video-grid">
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/3G3yRVtxMEQ" allowfullscreen></iframe>
+                            <p>Hola, soy Paco</p>
+                        </div>
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/lyZ7Z8dqx7c" allowfullscreen></iframe>
+                            <p>Introducción al ADN Cliff</p>
+                        </div>
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/z3qJxbdx7nA" allowfullscreen></iframe>
+                            <p>Valores</p>
+                        </div>
+                        <div class="video-item">
+                            <iframe src="https://www.youtube.com/embed/XAj3PMIIRlI" allowfullscreen></iframe>
+                            <p>Promesa de Marca</p>
+                        </div>
+                    </div>
+                </div>
+            `,
+            avisos: `
+                <div class="fade-in">
+                    <div class="content-header">
+                        <h2 class="content-title">Avisos</h2>
+                        <p class="content-subtitle">Mantente informado sobre las últimas noticias y actualizaciones</p>
+                    </div>
+                </div>
+            `,
+            humanos: `
+                <div class="fade-in">
+                    <div class="content-header">
+                        <h2 class="content-title">Recursos Humanos</h2>
+                        <p class="content-subtitle">Información importante para el equipo</p>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;">
+                        <div style="background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%); border: 2px solid var(--border); border-radius: 16px; padding: 30px;">
+                            <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; color: var(--accent); margin-bottom: 20px; text-align: center;">
+                                Menú Semanal
+                            </h3>
+                            <div style="width: 100%; height: 500px; border-radius: 12px; overflow: hidden; border: 2px solid var(--border); background: var(--surface);">
+                                <img src="img/menu.png" alt="Menú de la semana" style="width: 100%; height: 100%; object-fit: contain;">
+                            </div>
+                            <p style="text-align: center; margin-top: 20px; color: var(--text-secondary); font-size: 16px;">
+                                Actualizado semanalmente
+                            </p>
+                        </div>
+                        <div style="background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%); border: 2px solid var(--border); border-radius: 16px; padding: 30px;">
+                            <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; color: var(--accent); margin-bottom: 20px; text-align: center;">
+                                🎉 Cumpleaños del Mes
+                            </h3>
+                            <div style="max-height: 500px; overflow-y: auto; padding-right: 10px;">
+                                <!-- Lista de cumpleaños -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `,
+            docs: `
+                <iframe src="flipbook.html" style="width:100%; height:100%; border:none;"></iframe>
+            `
+        };
+
+        // Navigation click handler
+        navButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                const section = this.getAttribute('data-section');
+
+                // Verificar permiso
+                if (!verificarPermisoSeccion(section)) {
+                    alert('⛔ No tienes permiso para acceder a esta sección.');
+                    return;
+                }
+
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                contentArea.innerHTML = contentTemplates[section];
+
+                // Modo iframe completo para docs
+                if (section === "docs") {
+                    contentArea.classList.add("full-iframe");
+                } else {
+                    contentArea.classList.remove("full-iframe");
+                }
+
+                // Personalizar mensaje solo si es la sección de inicio
+                if (section === "inicio") {
+                    personalizarMensajeBienvenida();
+                }
+
+                createTouchFeedback(event);
+            });
+        });
+
+        // Touch feedback effect
+        function createTouchFeedback(event) {
+            const feedback = document.createElement('div');
+            feedback.className = 'touch-feedback';
+            feedback.style.left = (event.clientX - 150) + 'px';
+            feedback.style.top = (event.clientY - 150) + 'px';
+            document.body.appendChild(feedback);
+
+            setTimeout(() => {
+                feedback.remove();
+            }, 600);
+        }
+
+        // ========== SISTEMA DE LOGOUT ==========
+        function setupLogout() {
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function () {
+                    if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                        localStorage.removeItem('currentUser');
+                        sessionStorage.removeItem('userLoggedIn');
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+        }
+
+        // ========== INICIALIZACIÓN ==========
+        document.addEventListener('DOMContentLoaded', function () {
+            // Verificar autenticación
+            usuarioInfo = obtenerUsuarioActual();
+
+            if (!usuarioInfo) {
+                alert('Por favor inicia sesión primero');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Obtener rol y permisos
+            rolUsuario = obtenerRolUsuario(usuarioInfo.username);
+
+            // Obtener permisos del rol
+            const infoRol = permisosPorRol[rolUsuario];
+            permisosUsuario = infoRol ? infoRol.permisos : ['inicio', 'adn', 'avisos'];
+
+            // Mostrar info en consola
+            console.log(`👤 Usuario: ${usuarioInfo.nombreCompleto || usuarioInfo.username}`);
+            console.log(`🎭 Rol: ${rolUsuario} (${infoRol.nombre})`);
+            console.log(`🔑 Permisos: ${permisosUsuario.join(', ')}`);
+
+            // Aplicar permisos en la UI
+            aplicarPermisosEnUI();
+
+            // Configurar logout
+            setupLogout();
+
+            // Cargar la pantalla de inicio por defecto
+            contentArea.innerHTML = contentTemplates.inicio;
+            personalizarMensajeBienvenida();
+
+            // Configurar protección contra clic derecho
+            document.addEventListener('contextmenu', function (e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+
+</html>
