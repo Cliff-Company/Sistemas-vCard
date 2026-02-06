@@ -1,0 +1,22 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #111;
+  overflow: hidden;
+}
+
+.app-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#book {
+  width: 90vw;
+  height: 90vh;
+  max-width: 1200px;
+  max-height: 900px;
+}

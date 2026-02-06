@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>FlipBook PDF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0A0A0A;
+            --secondary: #1A1A1A;
+            --accent: #FFD700;
+            --accent-dark: #FFA500;
+            --accent-glow: rgba(255, 215, 0, 0.4);
+            --text-primary: #FFFFFF;
+            --text-secondary: #CCCCCC;
+            --surface: #141414;
+            --surface-light: #1F1F1F;
+            --border: rgba(255, 215, 0, 0.3);
+            --shadow: rgba(0, 0, 0, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--surface) 100%);
+            color: var(--text-primary);
+            user-select: none;
+            -webkit-user-select: none;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Background animated grid */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(90deg, rgba(255, 215, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(rgba(255, 215, 0, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            opacity: 0.5;
+            animation: gridPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes gridPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(180deg, var(--surface) 0%, var(--surface-light) 100%);
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            min-height: 120px;
+            max-height: 140px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            z-index: 10;
+            gap: 20px;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            animation: scanLine 3s linear infinite;
+        }
+
+        @keyframes scanLine {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            height: 100%;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-img {
+            max-width: min(500px, 60vw);
+            max-height: 90px;
+            height: auto;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .action-btn {
+            background: linear-gradient(135deg, var(--surface-light) 0%, var(--secondary) 100%);
+            border: 2px solid var(--border);
+            color: var(--accent);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px var(--shadow);
+            white-space: nowrap;
+        }
+
+        .action-btn:hover {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--accent-glow);
+        }
+
+        .action-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Main App Container */
+        .app-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: calc(100% - 120px);
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        /* Flipbook Container */
+        #book {
+            flex: 1;
+            width: 100%;
+            height: 100%;
+            max-height: calc(100vh - 180px);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px var(--shadow);
+            overflow: hidden;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+            flex-shrink: 0;
+        }
+
+        .controls button {
+            background: linear-gradient(135deg, var(--surface-light) 0%, var(--secondary) 100%);
+            border: 2px solid var(--border);
+            color: var(--accent);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px var(--shadow);
+        }
+
+        .controls button:hover {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .controls button:active {
+            transform: scale(0.95);
+        }
+
+        .zoom-wrapper {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            touch-action: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .zoom-wrapper.zoomed {
+            cursor: grab;
+        }
+
+        .zoom-wrapper.zoomed:active {
+            cursor: grabbing;
+        }
+
+        /* MUY IMPORTANTE */
+        .zoom-wrapper.zoomed #book {
+            pointer-events: none;
+            /* bloquea PageFlip */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .action-btn {
+                padding: 10px 18px;
+                font-size: 13px;
+            }
+
+            .action-btn::before {
+                width: 16px;
+                height: 16px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                min-height: 100px;
+                max-height: 100px;
+                padding: 10px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .logo-container {
+                order: 1;
+            }
+
+            .action-buttons {
+                order: 2;
+                gap: 10px;
+            }
+
+            .logo-img {
+                max-width: 80vw;
+                max-height: 60px;
+            }
+
+            .action-btn {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            .app-container {
+                height: calc(100% - 100px);
+                padding: 15px;
+            }
+
+            #book {
+                max-height: calc(100vh - 200px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                min-height: 120px;
+                max-height: 120px;
+                padding: 8px 10px;
+            }
+
+            .logo-img {
+                max-width: 85vw;
+                max-height: 50px;
+            }
+
+            .action-buttons {
+                gap: 8px;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .action-btn {
+                padding: 8px 12px;
+                font-size: 11px;
+                flex: 1;
+                justify-content: center;
+                max-width: 140px;
+            }
+
+            .app-container {
+                height: calc(100% - 120px);
+                padding: 10px;
+            }
+
+            #book {
+                max-height: calc(100vh - 200px);
+            }
+
+            .controls {
+                padding: 10px;
+                gap: 15px;
+                margin-top: 10px;
+            }
+
+            .controls button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #book>div {
+                position: absolute !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+            }
+        }
+
+        @media (orientation: landscape) and (max-height: 600px) {
+            .header {
+                min-height: 70px;
+                max-height: 70px;
+                flex-direction: row;
+                padding: 8px 15px;
+            }
+
+            .logo-img {
+                max-height: 50px;
+            }
+
+            .action-buttons {
+                gap: 8px;
+            }
+
+            .action-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+
+            .app-container {
+                height: calc(100% - 70px);
+                padding: 10px;
+            }
+
+            .controls {
+                padding: 10px;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <body>
+    <div class="app-container">
+        <div class="zoom-wrapper">
+            <div id="book"></div>
+        </div>
+    </div>
+
+    <script src="vendor/pageflip/page-flip.browser.js"></script>
+
+    <!-- App -->
+    <script type="module" src="assets/js/app.js"></script>
+
+    <script>
+        let lastTouchX = 0;
+        let lastTouchY = 0;
+        const wrapper = document.querySelector(".zoom-wrapper");
+
+        let scale = 1;
+        const MIN_SCALE = 1;
+        const MAX_SCALE = 3;
+
+        let isPanning = false;
+        let startX = 0;
+        let startY = 0;
+        let translateX = 0;
+        let translateY = 0;
+        let startDistance = 0;
+
+        /* =====================
+           UTIL
+        ===================== */
+        function applyTransform() {
+            wrapper.style.transform =
+                `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+
+            if (scale > 1) {
+                wrapper.classList.add("zoomed");
+            } else {
+                resetPosition();
+            }
+        }
+
+        function resetPosition() {
+            scale = 1;
+            translateX = 0;
+            translateY = 0;
+            wrapper.style.transform = "translate(0,0) scale(1)";
+            wrapper.classList.remove("zoomed");
+        }
+
+        /* =====================
+           PC ZOOM
+        ===================== */
+        wrapper.addEventListener("wheel", (e) => {
+            e.preventDefault();
+
+            scale += e.deltaY * -0.0015;
+            scale = Math.min(Math.max(MIN_SCALE, scale), MAX_SCALE);
+
+            applyTransform();
+        }, { passive: false });
+
+        /* =====================
+           PC PAN
+        ===================== */
+        wrapper.addEventListener("mousedown", (e) => {
+            if (scale <= 1) return;
+
+            isPanning = true;
+            startX = e.clientX - translateX;
+            startY = e.clientY - translateY;
+
+            e.preventDefault();
+            e.stopPropagation();
+        });
+
+        window.addEventListener("mousemove", (e) => {
+            if (!isPanning) return;
+
+            translateX = e.clientX - startX;
+            translateY = e.clientY - startY;
+
+            applyTransform();
+        });
+
+        window.addEventListener("mouseup", () => {
+            isPanning = false;
+        });
+
+        /* =====================
+           MOBILE PINCH
+        ===================== */
+        wrapper.addEventListener("touchstart", (e) => {
+            if (e.touches.length === 2) {
+                startDistance = getDistance(e.touches);
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }, { passive: false });
+
+        wrapper.addEventListener("touchmove", (e) => {
+            if (e.touches.length === 2) {
+                const newDistance = getDistance(e.touches);
+                scale += (newDistance - startDistance) * 0.004;
+                scale = Math.min(Math.max(MIN_SCALE, scale), MAX_SCALE);
+                startDistance = newDistance;
+
+                applyTransform();
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }, { passive: false });
+
+        /* =====================
+           MOBILE PAN
+        ===================== */
+
+        wrapper.addEventListener("touchstart", (e) => {
+            if (scale <= 1 || e.touches.length !== 1) return;
+
+            lastTouchX = e.touches[0].clientX;
+            lastTouchY = e.touches[0].clientY;
+
+            e.preventDefault();
+            e.stopPropagation();
+        }, { passive: false });
+
+        wrapper.addEventListener("touchmove", (e) => {
+            if (scale <= 1 || e.touches.length !== 1) return;
+
+            const touch = e.touches[0];
+
+            const deltaX = touch.clientX - lastTouchX;
+            const deltaY = touch.clientY - lastTouchY;
+
+            translateX += deltaX;
+            translateY += deltaY;
+
+            lastTouchX = touch.clientX;
+            lastTouchY = touch.clientY;
+
+            applyTransform();
+
+            e.preventDefault();
+            e.stopPropagation();
+        }, { passive: false });
+
+        /* =====================
+           HELPERS
+        ===================== */
+        function getDistance(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+    </script>
+
+</body>
+
+
+</html>
