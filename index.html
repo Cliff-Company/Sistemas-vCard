@@ -531,15 +531,6 @@
       }
     });
     
-    // Proteger contra refresco accidental
-    window.addEventListener('beforeunload', function(e) {
-      const userInput = document.getElementById("user").value;
-      if (userInput) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    });
-    
     // Mostrar información de debug en consola
     console.log("=== IntraNET Cliff Login ===");
     console.log("Versión: 2.0");

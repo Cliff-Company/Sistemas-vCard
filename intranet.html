@@ -1117,18 +1117,50 @@
         }
 
         .acordeon-header {
-            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
-            padding: 20px;
-            font-family: 'Bebas Neue', sans-serif;
-            font-size: 32px;
-            letter-spacing: 2px;
-            color: var(--accent);
             cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s ease;
-            border-bottom: 2px solid transparent;
+            -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* Mejorar área táctil */
+        @media (max-width: 768px) {
+            .acordeon-header {
+                padding: 25px 20px;
+                /* Más grande para dedos */
+                min-height: 60px;
+                /* Altura mínima para toque */
+            }
+
+            .acordeon-icon {
+                font-size: 28px;
+                /* Más grande en móvil */
+            }
+
+            .acordeon-content {
+                transition: max-height 0.4s ease, padding 0.4s ease;
+            }
+
+            .acordeon-content.active {
+                padding: 20px;
+                max-height: 5000px !important;
+                /* Permitir altura dinámica */
+            }
+
+            /* Productos en móvil */
+            .productos-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                gap: 15px;
+                padding: 5px;
+            }
+
+            .producto-btn {
+                border-radius: 8px;
+            }
+
+            .producto-btn img {
+                border-radius: 8px;
+            }
         }
 
         .acordeon-header:hover {
@@ -2027,30 +2059,53 @@
             });
         }
 
-        // Función para manejar acordeones
+        // Función para manejar acordeones - VERSIÓN CORREGIDA PARA MÓVIL
         function setupAcordeones() {
             const acordeonHeaders = document.querySelectorAll('.acordeon-header');
 
             acordeonHeaders.forEach(header => {
-                header.addEventListener('click', function () {
-                    const target = this.getAttribute('data-acordeon');
-                    const content = document.getElementById(`${target}-content`);
+                // Remover event listeners anteriores para evitar duplicados
+                header.removeEventListener('click', handleAcordeonClick);
+                header.addEventListener('click', handleAcordeonClick);
 
-                    // Cerrar todos los acordeones
-                    acordeonHeaders.forEach(h => {
-                        if (h !== this) {
-                            h.classList.remove('active');
-                            const otherTarget = h.getAttribute('data-acordeon');
-                            const otherContent = document.getElementById(`${otherTarget}-content`);
-                            if (otherContent) otherContent.classList.remove('active');
-                        }
-                    });
-
-                    // Alternar el acordeón clickeado
-                    this.classList.toggle('active');
-                    content.classList.toggle('active');
-                });
+                // También agregar soporte táctil
+                header.addEventListener('touchstart', handleAcordeonClick, { passive: true });
             });
+
+            function handleAcordeonClick(e) {
+                // Prevenir comportamiento por defecto en móvil
+                e.preventDefault();
+                e.stopPropagation();
+
+                const target = this.getAttribute('data-acordeon');
+                const content = document.getElementById(`${target}-content`);
+
+                // Verificar si ya está activo
+                const isActive = this.classList.contains('active');
+
+                // Cerrar todos los acordeones primero
+                acordeonHeaders.forEach(h => {
+                    h.classList.remove('active');
+                    const otherTarget = h.getAttribute('data-acordeon');
+                    const otherContent = document.getElementById(`${otherTarget}-content`);
+                    if (otherContent) {
+                        otherContent.classList.remove('active');
+                        otherContent.style.maxHeight = '0';
+                    }
+                });
+
+                // Si no estaba activo, abrirlo
+                if (!isActive) {
+                    this.classList.add('active');
+                    content.classList.add('active');
+
+                    // Establecer altura máxima para animación
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+
+                // También cerrar menú móvil si está abierto
+                cerrarMenuMovil();
+            }
         }
 
         // Función para mostrar el modal de descarga - VERSIÓN MEJORADA
