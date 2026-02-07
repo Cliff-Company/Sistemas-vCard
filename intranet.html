@@ -702,6 +702,136 @@
             scrollbar-color: var(--accent) var(--surface);
         }
 
+        /* ========== ESTILOS PARA CUMPLEAÑOS ========== */
+        .birthday-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 10px;
+        }
+
+        .birthday-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .birthday-item:hover {
+            background: rgba(255, 215, 0, 0.1);
+            transform: translateX(5px);
+        }
+
+        .birthday-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            background: var(--surface);
+        }
+
+        .birthday-info {
+            flex: 1;
+        }
+
+        .birthday-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+
+        .birthday-date {
+            color: var(--accent);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .birthday-department {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-top: 2px;
+        }
+
+        .no-birthdays {
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            padding: 30px;
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 10px;
+            border: 1px dashed var(--border);
+        }
+
+        /* ========== ESTILOS RESPONSIVE PARA RH ========== */
+        /* Contenedor para desktop - lado a lado */
+        .rh-grid-desktop {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        /* Contenedor para móvil - uno encima del otro */
+        .rh-grid-mobile {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        /* Estilos para las tarjetas */
+        .rh-card {
+            background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .rh-card h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Imagen del menú */
+        .menu-image-container {
+            width: 100%;
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--border);
+            background: var(--surface);
+        }
+
+        .menu-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .menu-updated {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Contenedor de cumpleaños */
+        .birthdays-container {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
         /* ========== MENÚ HAMBURGUESA PARA MÓVIL ========== */
         .mobile-menu-toggle {
             display: none;
@@ -789,7 +919,31 @@
             border-top: 1px solid var(--border);
         }
 
-        /* Responsive para móviles */
+        /* Botón de logout para móvil - CON CSS COMPLETO */
+        #logout-btn-mobile {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            margin-top: 10px;
+        }
+
+        #logout-btn-mobile:hover {
+            background: var(--accent);
+            color: var(--primary);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
@@ -860,6 +1014,71 @@
             .nav-title {
                 font-size: 24px;
                 margin-bottom: 20px;
+            }
+
+            .rh-grid-desktop {
+                display: none;
+            }
+
+            .rh-grid-mobile {
+                display: flex;
+            }
+
+            .rh-card {
+                padding: 20px;
+            }
+
+            .menu-image-container {
+                height: 400px;
+            }
+
+            .rh-card h3 {
+                font-size: 28px;
+            }
+
+            /* Ajustes para cumpleaños en móvil */
+            .birthday-item {
+                padding: 10px;
+                gap: 12px;
+            }
+
+            .birthday-photo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .birthday-name {
+                font-size: 15px;
+            }
+
+            .birthday-date {
+                font-size: 13px;
+            }
+
+            .birthday-department {
+                font-size: 12px;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .rh-grid-desktop {
+                display: grid;
+            }
+
+            .rh-grid-mobile {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: none;
+            }
+
+            .mobile-sidebar-overlay {
+                display: none !important;
+            }
+
+            .mobile-sidebar {
+                display: none !important;
             }
         }
 
@@ -958,22 +1177,22 @@
             },
             'directivo': {
                 nombre: 'Directivo',
-                permisos: ['inicio', 'adn', 'avisos', 'humanos'],
+                permisos: ['inicio', 'adn', 'avisos', 'humanos', 'docs'],
                 color: 'directivo'
             },
             'comite': {
                 nombre: 'Comité',
-                permisos: ['inicio', 'adn', 'avisos', 'humanos'],
+                permisos: ['inicio', 'adn', 'avisos', 'humanos', 'docs'],
                 color: 'comite'
             },
             'adn': {
                 nombre: 'Grupo ADN',
-                permisos: ['inicio', 'adn', 'avisos'],
+                permisos: ['inicio', 'adn', 'avisos', 'humanos', 'docs'],
                 color: 'adn'
             },
             'empleado': {
                 nombre: 'Empleado',
-                permisos: ['inicio', 'adn', 'avisos'],
+                permisos: ['inicio', 'avisos', 'humanos', 'docs'],
                 color: 'empleado'
             }
         };
@@ -1013,7 +1232,53 @@
 
             // NOTA: Los usuarios que no estén en esta lista serán 'empleado' por defecto
         };
-        
+
+        // ========== DATOS DE CUMPLEAÑOS ==========
+        const birthdaysData = [
+            {
+                name: "Juan Pérez",
+                date: "5 de Enero",
+                department: "Ventas",
+                photo: "img/cumpleaños/foto.png"
+            },
+            {
+                name: "María García",
+                date: "12 de Enero",
+                department: "Marketing",
+                photo: "img/cumpleaños/foto.png"
+            },
+            {
+                name: "Carlos López",
+                date: "18 de Enero",
+                department: "Producción",
+                photo: "img/cumpleaños/foto.png"
+            },
+            {
+                name: "Ana Martínez",
+                date: "22 de Enero",
+                department: "RH",
+                photo: "img/cumpleaños/foto.png"
+            },
+            {
+                name: "Roberto Sánchez",
+                date: "28 de Enero",
+                department: "Logística",
+                photo: "img/cumpleaños/foto.png"
+            },
+            {
+                name: "Laura Fernández",
+                date: "3 de Febrero",
+                department: "Finanzas",
+                photo: "img/cumpleaños/foto.png"
+            },
+            {
+                name: "Miguel Rodríguez",
+                date: "8 de Febrero",
+                department: "IT",
+                photo: "img/cumpleaños/foto.png"
+            }
+        ];
+
         let usuarioInfo = null;
         let rolUsuario = null;
         let permisosUsuario = [];
@@ -1134,12 +1399,42 @@
             }
         }
 
+        // Función para renderizar la lista de cumpleaños
+        function renderBirthdays() {
+            const birthdayContainers = document.querySelectorAll('.birthdays-container');
+
+            birthdayContainers.forEach(container => {
+                if (birthdaysData.length === 0) {
+                    container.innerHTML = '<div class="no-birthdays">🎉 No hay cumpleaños este mes</div>';
+                    return;
+                }
+
+                let html = '<div class="birthday-list">';
+
+                birthdaysData.forEach(person => {
+                    html += `
+                        <div class="birthday-item">
+                            <img src="${person.photo}" alt="${person.name}" class="birthday-photo">
+                            <div class="birthday-info">
+                                <div class="birthday-name">${person.name}</div>
+                                <div class="birthday-date">🎂 ${person.date}</div>
+                                <div class="birthday-department">${person.department}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+                container.innerHTML = html;
+            });
+        }
+
         // ========== SISTEMA DE NAVEGACIÓN ==========
         const navButtons = document.querySelectorAll('.nav-button');
         const mobileNavButtons = document.querySelectorAll('#mobileSidebar .nav-button');
         const contentArea = document.getElementById('content-area');
 
-        // Content templates - TODAS USAN LA MISMA ESTRUCTURA CON mont.png
+        // Content templates
         const contentTemplates = {
             inicio: `
                 <div class="welcome-screen fade-in">
@@ -1190,24 +1485,37 @@
                         <h2 class="content-title">Recursos Humanos</h2>
                         <p class="content-subtitle">Información importante para el equipo</p>
                     </div>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px;">
-                        <div style="background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%); border: 2px solid var(--border); border-radius: 16px; padding: 30px;">
-                            <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; color: var(--accent); margin-bottom: 20px; text-align: center;">
-                                Menú Semanal
-                            </h3>
-                            <div style="width: 100%; height: 500px; border-radius: 12px; overflow: hidden; border: 2px solid var(--border); background: var(--surface);">
-                                <img src="img/menu.png" alt="Menú de la semana" style="width: 100%; height: 100%; object-fit: contain;">
+                    
+                    <!-- Versión para desktop (lado a lado) -->
+                    <div class="rh-grid-desktop">
+                        <div class="rh-card">
+                            <h3>Menú Semanal</h3>
+                            <div class="menu-image-container">
+                                <img src="img/menu.png" alt="Menú de la semana">
                             </div>
-                            <p style="text-align: center; margin-top: 20px; color: var(--text-secondary); font-size: 16px;">
-                                Actualizado semanalmente
-                            </p>
+                            <p class="menu-updated">Actualizado semanalmente</p>
                         </div>
-                        <div style="background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%); border: 2px solid var(--border); border-radius: 16px; padding: 30px;">
-                            <h3 style="font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; color: var(--accent); margin-bottom: 20px; text-align: center;">
-                                🎉 Cumpleaños del Mes
-                            </h3>
-                            <div style="max-height: 500px; overflow-y: auto; padding-right: 10px;">
-                                <!-- Lista de cumpleaños -->
+                        <div class="rh-card">
+                            <h3>🎉 Cumpleaños del Mes</h3>
+                            <div class="birthdays-container">
+                                <!-- Lista de cumpleaños se cargará aquí -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Versión para móvil (uno encima del otro) -->
+                    <div class="rh-grid-mobile">
+                        <div class="rh-card">
+                            <h3>Menú Semanal</h3>
+                            <div class="menu-image-container">
+                                <img src="img/menu.png" alt="Menú de la semana">
+                            </div>
+                            <p class="menu-updated">Actualizado semanalmente</p>
+                        </div>
+                        <div class="rh-card">
+                            <h3>🎉 Cumpleaños del Mes</h3>
+                            <div class="birthdays-container">
+                                <!-- Lista de cumpleaños se cargará aquí -->
                             </div>
                         </div>
                     </div>
@@ -1248,6 +1556,11 @@
             // Personalizar mensaje solo si es la sección de inicio
             if (section === "inicio") {
                 personalizarMensajeBienvenida();
+            }
+
+            // Renderizar cumpleaños si es la sección de RH
+            if (section === "humanos") {
+                setTimeout(renderBirthdays, 100);
             }
 
             // Cerrar menú móvil si está abierto
@@ -1324,7 +1637,7 @@
         function setupLogout() {
             const logoutBtn = document.getElementById('logout-btn');
             const logoutBtnMobile = document.getElementById('logout-btn-mobile');
-            
+
             function logout() {
                 if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
                     localStorage.removeItem('currentUser');
@@ -1332,11 +1645,11 @@
                     window.location.href = 'index.html';
                 }
             }
-            
+
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', logout);
             }
-            
+
             if (logoutBtnMobile) {
                 logoutBtnMobile.addEventListener('click', logout);
             }
