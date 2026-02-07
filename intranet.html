@@ -1060,6 +1060,47 @@
             }
         }
 
+        /* Agrega esto en tu sección de estilos <style> */
+        @media (max-width: 768px) {
+            .acordeon-header {
+                cursor: pointer !important;
+                -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3) !important;
+                user-select: none !important;
+                -webkit-user-select: none !important;
+                padding: 25px 20px !important;
+                min-height: 60px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                touch-action: manipulation;
+                /* Mejora rendimiento táctil */
+            }
+
+            .acordeon-content {
+                transition: max-height 0.4s ease !important;
+                overflow: hidden !important;
+                will-change: max-height;
+                /* Mejora rendimiento de animación */
+            }
+
+            .acordeon-content.active {
+                max-height: 5000px !important;
+            }
+
+            /* Mejorar feedback táctil */
+            .acordeon-header:active {
+                background: linear-gradient(135deg, var(--secondary) 0%, var(--surface) 100%) !important;
+                transform: scale(0.98) !important;
+                transition: transform 0.1s ease !important;
+            }
+
+            /* Evitar selección de texto en móvil */
+            .acordeon-header * {
+                user-select: none !important;
+                -webkit-user-select: none !important;
+            }
+        }
+
         @media (min-width: 769px) {
             .rh-grid-desktop {
                 display: grid;
@@ -2027,72 +2068,129 @@
             });
         }
 
-        // Función para manejar acordeones - VERSIÓN CORREGIDA COMPLETA
+        // Función para manejar acordeones - VERSIÓN COMPATIBLE CON MÓVIL
         function setupAcordeones() {
-            const acordeonHeaders = document.querySelectorAll('.acordeon-header');
+            console.log('🔧 Configurando acordeones...');
 
-            // Primero, limpiar todos los event listeners existentes
+            // Seleccionar todos los headers de acordeón
+            const acordeonHeaders = document.querySelectorAll('.acordeon-header');
+            console.log('Acordeones encontrados:', acordeonHeaders.length);
+
+            // Remover event listeners anteriores si existen
             acordeonHeaders.forEach(header => {
-                // Clonar y reemplazar para limpiar event listeners
+                // Crear nuevo elemento para limpiar listeners
                 const newHeader = header.cloneNode(true);
                 header.parentNode.replaceChild(newHeader, header);
             });
 
-            // Volver a obtener los elementos
+            // Volver a seleccionar después del reemplazo
             const refreshedHeaders = document.querySelectorAll('.acordeon-header');
 
-            // Agregar event listeners frescos
-            refreshedHeaders.forEach(header => {
-                // Usar la misma función para ambos eventos
-                header.addEventListener('click', toggleAcordeon);
-                header.addEventListener('touchstart', function (e) {
-                    // Para móvil, prevenir scroll accidental
-                    e.preventDefault();
+            refreshedHeaders.forEach((header, index) => {
+                console.log(`Configurando acordeón ${index}:`, header.textContent.trim());
+
+                // Agregar atributos para accesibilidad
+                header.setAttribute('role', 'button');
+                header.setAttribute('tabindex', '0');
+                header.setAttribute('aria-expanded', 'false');
+                header.setAttribute('aria-controls', header.getAttribute('data-acordeon') + '-content');
+
+                // Mejorar estilo para móvil
+                if (window.innerWidth <= 768) {
+                    header.style.cursor = 'pointer';
+                    header.style.minHeight = '60px';
+                    header.style.display = 'flex';
+                    header.style.alignItems = 'center';
+                    header.style.justifyContent = 'space-between';
+                }
+
+                // Evento para click (mouse y toque en navegadores modernos)
+                header.addEventListener('click', function (e) {
+                    console.log('🖱️ Click en acordeón:', this.textContent.trim());
                     toggleAcordeon.call(this, e);
+                });
+
+                // Evento para teclado (accesibilidad)
+                header.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        toggleAcordeon.call(this, e);
+                    }
+                });
+
+                // Evento específico para touch (móvil)
+                header.addEventListener('touchstart', function (e) {
+                    console.log('📱 Touch en acordeón:', this.textContent.trim());
+                    // Marcar como tocado para feedback visual
+                    this.classList.add('touched');
+                }, { passive: true });
+
+                header.addEventListener('touchend', function (e) {
+                    e.preventDefault();
+                    console.log('📱 Touch end en acordeón');
+                    toggleAcordeon.call(this, e);
+                    this.classList.remove('touched');
                 }, { passive: false });
             });
 
             function toggleAcordeon(e) {
-                // Prevenir comportamiento por defecto si es evento táctil
-                if (e.type === 'touchstart') {
+                // Prevenir comportamiento por defecto si es necesario
+                if (e.cancelable) {
                     e.preventDefault();
                 }
+                e.stopPropagation();
 
-                const target = this.getAttribute('data-acordeon');
-                const content = document.getElementById(`${target}-content`);
+                const targetId = this.getAttribute('data-acordeon');
+                const content = document.getElementById(`${targetId}-content`);
+
+                if (!content) {
+                    console.error('❌ Contenido no encontrado para:', targetId);
+                    return;
+                }
+
+                console.log('🔄 Alternando acordeón:', targetId);
 
                 // Verificar si ya está activo
                 const isActive = this.classList.contains('active');
 
-                // Cerrar todos los acordeones
-                refreshedHeaders.forEach(h => {
-                    const otherTarget = h.getAttribute('data-acordeon');
-                    const otherContent = document.getElementById(`${otherTarget}-content`);
+                // Actualizar atributo ARIA
+                this.setAttribute('aria-expanded', !isActive);
 
-                    if (h !== this) {
-                        h.classList.remove('active');
-                        if (otherContent) {
-                            otherContent.classList.remove('active');
-                            otherContent.style.maxHeight = null;
-                        }
-                    }
-                });
-
-                // Si no estaba activo, abrirlo
                 if (!isActive) {
+                    // Cerrar otros acordeones
+                    refreshedHeaders.forEach(otherHeader => {
+                        if (otherHeader !== this) {
+                            otherHeader.classList.remove('active');
+                            otherHeader.setAttribute('aria-expanded', 'false');
+                            const otherTarget = otherHeader.getAttribute('data-acordeon');
+                            const otherContent = document.getElementById(`${otherTarget}-content`);
+                            if (otherContent) {
+                                otherContent.classList.remove('active');
+                                otherContent.style.maxHeight = null;
+                            }
+                        }
+                    });
+
+                    // Abrir este acordeón
                     this.classList.add('active');
                     content.classList.add('active');
                     content.style.maxHeight = content.scrollHeight + 'px';
+
+                    console.log('✅ Acordeón abierto:', targetId);
                 } else {
-                    // Si ya estaba activo, cerrarlo
+                    // Cerrar este acordeón
                     this.classList.remove('active');
                     content.classList.remove('active');
                     content.style.maxHeight = null;
+
+                    console.log('✅ Acordeón cerrado:', targetId);
                 }
 
                 // Cerrar menú móvil si está abierto
                 cerrarMenuMovil();
             }
+
+            console.log('✅ Acordeones configurados');
         }
 
         // Función para mostrar el modal de descarga - VERSIÓN MEJORADA
