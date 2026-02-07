@@ -1117,50 +1117,18 @@
         }
 
         .acordeon-header {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
+            padding: 20px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 2px;
+            color: var(--accent);
             cursor: pointer;
-            -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3);
-            user-select: none;
-            -webkit-user-select: none;
-        }
-
-        /* Mejorar área táctil */
-        @media (max-width: 768px) {
-            .acordeon-header {
-                padding: 25px 20px;
-                /* Más grande para dedos */
-                min-height: 60px;
-                /* Altura mínima para toque */
-            }
-
-            .acordeon-icon {
-                font-size: 28px;
-                /* Más grande en móvil */
-            }
-
-            .acordeon-content {
-                transition: max-height 0.4s ease, padding 0.4s ease;
-            }
-
-            .acordeon-content.active {
-                padding: 20px;
-                max-height: 5000px !important;
-                /* Permitir altura dinámica */
-            }
-
-            /* Productos en móvil */
-            .productos-grid {
-                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-                gap: 15px;
-                padding: 5px;
-            }
-
-            .producto-btn {
-                border-radius: 8px;
-            }
-
-            .producto-btn img {
-                border-radius: 8px;
-            }
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
         }
 
         .acordeon-header:hover {
@@ -2060,72 +2028,72 @@
         }
 
         // Función para manejar acordeones - VERSIÓN CORREGIDA COMPLETA
-function setupAcordeones() {
-    const acordeonHeaders = document.querySelectorAll('.acordeon-header');
-    
-    // Primero, limpiar todos los event listeners existentes
-    acordeonHeaders.forEach(header => {
-        // Clonar y reemplazar para limpiar event listeners
-        const newHeader = header.cloneNode(true);
-        header.parentNode.replaceChild(newHeader, header);
-    });
-    
-    // Volver a obtener los elementos
-    const refreshedHeaders = document.querySelectorAll('.acordeon-header');
-    
-    // Agregar event listeners frescos
-    refreshedHeaders.forEach(header => {
-        // Usar la misma función para ambos eventos
-        header.addEventListener('click', toggleAcordeon);
-        header.addEventListener('touchstart', function(e) {
-            // Para móvil, prevenir scroll accidental
-            e.preventDefault();
-            toggleAcordeon.call(this, e);
-        }, { passive: false });
-    });
-    
-    function toggleAcordeon(e) {
-        // Prevenir comportamiento por defecto si es evento táctil
-        if (e.type === 'touchstart') {
-            e.preventDefault();
-        }
-        
-        const target = this.getAttribute('data-acordeon');
-        const content = document.getElementById(`${target}-content`);
-        
-        // Verificar si ya está activo
-        const isActive = this.classList.contains('active');
-        
-        // Cerrar todos los acordeones
-        refreshedHeaders.forEach(h => {
-            const otherTarget = h.getAttribute('data-acordeon');
-            const otherContent = document.getElementById(`${otherTarget}-content`);
-            
-            if (h !== this) {
-                h.classList.remove('active');
-                if (otherContent) {
-                    otherContent.classList.remove('active');
-                    otherContent.style.maxHeight = null;
+        function setupAcordeones() {
+            const acordeonHeaders = document.querySelectorAll('.acordeon-header');
+
+            // Primero, limpiar todos los event listeners existentes
+            acordeonHeaders.forEach(header => {
+                // Clonar y reemplazar para limpiar event listeners
+                const newHeader = header.cloneNode(true);
+                header.parentNode.replaceChild(newHeader, header);
+            });
+
+            // Volver a obtener los elementos
+            const refreshedHeaders = document.querySelectorAll('.acordeon-header');
+
+            // Agregar event listeners frescos
+            refreshedHeaders.forEach(header => {
+                // Usar la misma función para ambos eventos
+                header.addEventListener('click', toggleAcordeon);
+                header.addEventListener('touchstart', function (e) {
+                    // Para móvil, prevenir scroll accidental
+                    e.preventDefault();
+                    toggleAcordeon.call(this, e);
+                }, { passive: false });
+            });
+
+            function toggleAcordeon(e) {
+                // Prevenir comportamiento por defecto si es evento táctil
+                if (e.type === 'touchstart') {
+                    e.preventDefault();
                 }
+
+                const target = this.getAttribute('data-acordeon');
+                const content = document.getElementById(`${target}-content`);
+
+                // Verificar si ya está activo
+                const isActive = this.classList.contains('active');
+
+                // Cerrar todos los acordeones
+                refreshedHeaders.forEach(h => {
+                    const otherTarget = h.getAttribute('data-acordeon');
+                    const otherContent = document.getElementById(`${otherTarget}-content`);
+
+                    if (h !== this) {
+                        h.classList.remove('active');
+                        if (otherContent) {
+                            otherContent.classList.remove('active');
+                            otherContent.style.maxHeight = null;
+                        }
+                    }
+                });
+
+                // Si no estaba activo, abrirlo
+                if (!isActive) {
+                    this.classList.add('active');
+                    content.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                } else {
+                    // Si ya estaba activo, cerrarlo
+                    this.classList.remove('active');
+                    content.classList.remove('active');
+                    content.style.maxHeight = null;
+                }
+
+                // Cerrar menú móvil si está abierto
+                cerrarMenuMovil();
             }
-        });
-        
-        // Si no estaba activo, abrirlo
-        if (!isActive) {
-            this.classList.add('active');
-            content.classList.add('active');
-            content.style.maxHeight = content.scrollHeight + 'px';
-        } else {
-            // Si ya estaba activo, cerrarlo
-            this.classList.remove('active');
-            content.classList.remove('active');
-            content.style.maxHeight = null;
         }
-        
-        // Cerrar menú móvil si está abierto
-        cerrarMenuMovil();
-    }
-}
 
         // Función para mostrar el modal de descarga - VERSIÓN MEJORADA
         function showDownloadModal(nombre, driveUrl) {
@@ -2526,6 +2494,5 @@ function setupAcordeones() {
 
     </script>
 </body>
-
 
 </html>
