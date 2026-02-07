@@ -701,10 +701,219 @@
             scrollbar-width: thin;
             scrollbar-color: var(--accent) var(--surface);
         }
+
+        /* ========== MENÚ HAMBURGUESA PARA MÓVIL ========== */
+        .mobile-menu-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: var(--surface-light);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            z-index: 1000;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile sidebar overlay */
+        .mobile-sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 999;
+            backdrop-filter: blur(5px);
+        }
+
+        .mobile-sidebar-overlay.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        /* Mobile sidebar */
+        .mobile-sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px;
+            width: 280px;
+            height: 100%;
+            background: var(--surface-light);
+            border-right: 2px solid var(--border);
+            z-index: 1000;
+            transition: left 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-sidebar.active {
+            left: 0;
+            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .mobile-user-section {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Responsive para móviles */
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                grid-template-rows: 80px 1fr;
+            }
+
+            .header {
+                justify-content: center;
+                padding: 15px 60px;
+            }
+
+            .logo-img {
+                max-width: 300px;
+                max-height: 50px;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .content {
+                padding: 20px;
+                width: 100%;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .welcome-title {
+                font-size: 42px;
+            }
+
+            .welcome-text {
+                font-size: 18px;
+                padding: 0 15px;
+            }
+
+            .logo-animado::before {
+                width: 200px;
+                height: 200px;
+            }
+
+            .logo-animado img {
+                width: 180px;
+                height: 180px;
+            }
+
+            .content-header {
+                margin-bottom: 20px;
+            }
+
+            .content-title {
+                font-size: 36px;
+            }
+
+            .video-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .nav-button {
+                padding: 18px 20px;
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            .nav-title {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* Para tablets */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                grid-template-columns: 250px 1fr;
+            }
+
+            .content {
+                padding: 25px 30px;
+            }
+
+            .nav-button {
+                padding: 18px 20px;
+                font-size: 20px;
+            }
+
+            .video-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
     </style>
 </head>
 
 <body>
+    <!-- Botón de menú hamburguesa para móvil -->
+    <div class="mobile-menu-toggle" id="mobileMenuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <!-- Overlay para móvil -->
+    <div class="mobile-sidebar-overlay" id="mobileOverlay"></div>
+
+    <!-- Sidebar para móvil -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="nav-title">MENÚ</div>
+
+        <div class="nav-buttons-container">
+            <button class="nav-button active" data-section="inicio">Inicio</button>
+            <button class="nav-button" data-section="adn">ADN Cliff</button>
+            <button class="nav-button" data-section="avisos">Avisos</button>
+            <button class="nav-button" data-section="humanos">RH</button>
+            <button class="nav-button" data-section="docs" id="docs-button-mobile">Reglamento</button>
+        </div>
+
+        <div class="mobile-user-section">
+            <div id="current-user-mobile"></div>
+            <button id="logout-btn-mobile">Cerrar Sesión</button>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Header -->
         <div class="header">
@@ -827,12 +1036,14 @@
 
         function aplicarPermisosEnUI() {
             const navButtons = document.querySelectorAll('.nav-button');
+            const mobileNavButtons = document.querySelectorAll('#mobileSidebar .nav-button');
             const userDisplay = document.getElementById('current-user');
+            const userDisplayMobile = document.getElementById('current-user-mobile');
 
             // Obtener información del rol
             const infoRol = permisosPorRol[rolUsuario];
 
-            // Mostrar nombre completo y rol
+            // Mostrar nombre completo y rol en desktop
             if (userDisplay && infoRol && usuarioInfo && usuarioInfo.nombreCompleto) {
                 userDisplay.innerHTML = `
                     <div style="font-size: 16px; margin-bottom: 5px;">${usuarioInfo.nombreCompleto}</div>
@@ -849,8 +1060,38 @@
                 `;
             }
 
-            // Mostrar/ocultar botones según permisos
+            // Mostrar nombre completo y rol en móvil
+            if (userDisplayMobile && infoRol && usuarioInfo && usuarioInfo.nombreCompleto) {
+                userDisplayMobile.innerHTML = `
+                    <div style="font-size: 16px; margin-bottom: 5px;">${usuarioInfo.nombreCompleto}</div>
+                    <span class="role-badge ${infoRol.color}-badge">
+                        ${infoRol.nombre}
+                    </span>
+                `;
+            } else if (userDisplayMobile && infoRol && usuarioInfo) {
+                userDisplayMobile.innerHTML = `
+                    <div style="font-size: 16px; margin-bottom: 5px;">${usuarioInfo.username}</div>
+                    <span class="role-badge ${infoRol.color}-badge">
+                        ${infoRol.nombre}
+                    </span>
+                `;
+            }
+
+            // Mostrar/ocultar botones según permisos en desktop
             navButtons.forEach(button => {
+                const section = button.getAttribute('data-section');
+
+                if (section === 'inicio') return;
+
+                if (permisosUsuario.includes(section)) {
+                    button.style.display = 'block';
+                } else {
+                    button.style.display = 'none';
+                }
+            });
+
+            // Mostrar/ocultar botones según permisos en móvil
+            mobileNavButtons.forEach(button => {
                 const section = button.getAttribute('data-section');
 
                 if (section === 'inicio') return;
@@ -895,6 +1136,7 @@
 
         // ========== SISTEMA DE NAVEGACIÓN ==========
         const navButtons = document.querySelectorAll('.nav-button');
+        const mobileNavButtons = document.querySelectorAll('#mobileSidebar .nav-button');
         const contentArea = document.getElementById('content-area');
 
         // Content templates - TODAS USAN LA MISMA ESTRUCTURA CON mont.png
@@ -976,34 +1218,56 @@
             `
         };
 
-        // Navigation click handler
+        // Función para cambiar de sección
+        function cambiarSeccion(section, buttonElement) {
+            // Verificar permiso
+            if (!verificarPermisoSeccion(section)) {
+                alert('⛔ No tienes permiso para acceder a esta sección.');
+                return;
+            }
+
+            // Quitar active de todos los botones
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            mobileNavButtons.forEach(btn => btn.classList.remove('active'));
+
+            // Agregar active al botón clickeado
+            if (buttonElement) {
+                buttonElement.classList.add('active');
+            }
+
+            // Cambiar contenido
+            contentArea.innerHTML = contentTemplates[section];
+
+            // Modo iframe completo para docs
+            if (section === "docs") {
+                contentArea.classList.add("full-iframe");
+            } else {
+                contentArea.classList.remove("full-iframe");
+            }
+
+            // Personalizar mensaje solo si es la sección de inicio
+            if (section === "inicio") {
+                personalizarMensajeBienvenida();
+            }
+
+            // Cerrar menú móvil si está abierto
+            cerrarMenuMovil();
+        }
+
+        // Navigation click handler para desktop
         navButtons.forEach(button => {
             button.addEventListener('click', function (event) {
                 const section = this.getAttribute('data-section');
+                cambiarSeccion(section, this);
+                createTouchFeedback(event);
+            });
+        });
 
-                // Verificar permiso
-                if (!verificarPermisoSeccion(section)) {
-                    alert('⛔ No tienes permiso para acceder a esta sección.');
-                    return;
-                }
-
-                navButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-
-                contentArea.innerHTML = contentTemplates[section];
-
-                // Modo iframe completo para docs
-                if (section === "docs") {
-                    contentArea.classList.add("full-iframe");
-                } else {
-                    contentArea.classList.remove("full-iframe");
-                }
-
-                // Personalizar mensaje solo si es la sección de inicio
-                if (section === "inicio") {
-                    personalizarMensajeBienvenida();
-                }
-
+        // Navigation click handler para móvil
+        mobileNavButtons.forEach(button => {
+            button.addEventListener('click', function (event) {
+                const section = this.getAttribute('data-section');
+                cambiarSeccion(section, this);
                 createTouchFeedback(event);
             });
         });
@@ -1021,17 +1285,60 @@
             }, 600);
         }
 
+        // ========== MENÚ MÓVIL ==========
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+
+        function abrirMenuMovil() {
+            mobileMenuToggle.classList.add('active');
+            mobileOverlay.classList.add('active');
+            mobileSidebar.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function cerrarMenuMovil() {
+            mobileMenuToggle.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            mobileSidebar.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Event listeners para menú móvil
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', abrirMenuMovil);
+        }
+
+        if (mobileOverlay) {
+            mobileOverlay.addEventListener('click', cerrarMenuMovil);
+        }
+
+        // Cerrar menú al hacer clic en cualquier enlace dentro del menú móvil
+        mobileSidebar.addEventListener('click', (e) => {
+            if (e.target.classList.contains('nav-button')) {
+                setTimeout(cerrarMenuMovil, 300);
+            }
+        });
+
         // ========== SISTEMA DE LOGOUT ==========
         function setupLogout() {
             const logoutBtn = document.getElementById('logout-btn');
+            const logoutBtnMobile = document.getElementById('logout-btn-mobile');
+            
+            function logout() {
+                if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                    localStorage.removeItem('currentUser');
+                    sessionStorage.removeItem('userLoggedIn');
+                    window.location.href = 'index.html';
+                }
+            }
+            
             if (logoutBtn) {
-                logoutBtn.addEventListener('click', function () {
-                    if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
-                        localStorage.removeItem('currentUser');
-                        sessionStorage.removeItem('userLoggedIn');
-                        window.location.href = 'index.html';
-                    }
-                });
+                logoutBtn.addEventListener('click', logout);
+            }
+            
+            if (logoutBtnMobile) {
+                logoutBtnMobile.addEventListener('click', logout);
             }
         }
 
@@ -1072,6 +1379,24 @@
             document.addEventListener('contextmenu', function (e) {
                 e.preventDefault();
             });
+
+            // Detectar tamaño de pantalla para ajustar menú
+            function ajustarMenuPorTamano() {
+                if (window.innerWidth <= 768) {
+                    // En móvil, asegurar que el sidebar de desktop esté oculto
+                    document.querySelector('.sidebar').style.display = 'none';
+                    mobileMenuToggle.style.display = 'flex';
+                } else {
+                    // En desktop, mostrar sidebar y ocultar menú móvil
+                    document.querySelector('.sidebar').style.display = 'flex';
+                    mobileMenuToggle.style.display = 'none';
+                    cerrarMenuMovil();
+                }
+            }
+
+            // Ejecutar al cargar y al redimensionar
+            ajustarMenuPorTamano();
+            window.addEventListener('resize', ajustarMenuPorTamano);
         });
     </script>
 </body>
