@@ -1101,6 +1101,245 @@
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
         }
+
+        /* ========== ESTILOS PARA LA SECCIÓN PRODUCTOS ========== */
+        .productos-section {
+            margin-top: 40px;
+        }
+
+        /* Acordeón/Desplegable */
+        .acordeon {
+            margin-bottom: 25px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--surface-light);
+        }
+
+        .acordeon-header {
+            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
+            padding: 20px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 2px;
+            color: var(--accent);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .acordeon-header:hover {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--surface) 100%);
+        }
+
+        .acordeon-header.active {
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .acordeon-icon {
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .acordeon-header.active .acordeon-icon {
+            transform: rotate(180deg);
+        }
+
+        .acordeon-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.5s ease;
+        }
+
+        .acordeon-content.active {
+            padding: 25px;
+            max-height: 2000px;
+        }
+
+        /* Grid de productos */
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .productos-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+        }
+
+        /* Botones de producto (imágenes) */
+        .producto-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .producto-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 25px var(--accent-glow);
+        }
+
+        .producto-btn:active {
+            transform: translateY(-5px) scale(0.98);
+        }
+
+        .producto-btn img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            transition: border-color 0.3s ease;
+        }
+
+        .producto-btn:hover img {
+            border-color: var(--accent);
+        }
+
+        /* Overlay para el botón */
+        .producto-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--accent);
+            padding: 8px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .producto-btn:hover .producto-overlay {
+            opacity: 1;
+        }
+
+        /* Modal para confirmar descarga */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
+            border: 2px solid var(--accent);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .modal-text {
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 30px;
+            border-radius: 8px;
+            border: 2px solid var(--accent);
+            background: transparent;
+            color: var(--accent);
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .modal-btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .modal-btn.cancel {
+            border-color: var(--text-secondary);
+            color: var(--text-secondary);
+        }
+
+        .modal-btn.cancel:hover {
+            background: var(--text-secondary);
+            color: var(--primary);
+        }
+
+        /* Agrega esto a tu sección de estilos CSS */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 204, 0, 0.3);
+            border-radius: 50%;
+            border-top-color: #ffcc00;
+            animation: spin 1s ease-in-out infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -1124,6 +1363,7 @@
             <button class="nav-button" data-section="adn">ADN Cliff</button>
             <button class="nav-button" data-section="avisos">Avisos</button>
             <button class="nav-button" data-section="humanos">RH</button>
+            <button class="nav-button" data-section="productos">Productos</button>
             <button class="nav-button" data-section="docs" id="docs-button-mobile">Reglamento</button>
         </div>
 
@@ -1151,6 +1391,7 @@
                 <button class="nav-button" data-section="adn">ADN Cliff</button>
                 <button class="nav-button" data-section="avisos">Avisos</button>
                 <button class="nav-button" data-section="humanos">RH</button>
+                <button class="nav-button" data-section="productos">Productos</button>
                 <button class="nav-button" data-section="docs" id="docs-button">Reglamento</button>
             </div>
 
@@ -1167,12 +1408,24 @@
         </div>
     </div>
 
+    <!-- Modal para confirmar descarga -->
+    <div class="modal-overlay" id="downloadModal">
+        <div class="modal-content">
+            <h3 class="modal-title" id="modalTitle">Descargar Ficha Técnica</h3>
+            <p class="modal-text" id="modalText">¿Estás seguro de que quieres descargar la ficha técnica?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel" id="cancelDownload">Cancelar</button>
+                <button class="modal-btn" id="confirmDownload">Descargar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ========== CONFIGURACIÓN DE ROLES ==========
         const permisosPorRol = {
             'admin': {
                 nombre: 'Administrador',
-                permisos: ['inicio', 'adn', 'avisos', 'humanos', 'docs'],
+                permisos: ['inicio', 'adn', 'avisos', 'humanos', 'productos', 'docs'],
                 color: 'admin'
             },
             'directivo': {
@@ -1278,6 +1531,166 @@
                 photo: "img/cumpleaños/foto.png"
             }
         ];
+
+        // ========== DATOS DE PRODUCTOS ==========
+        const productosData = {
+            inyeccion: [
+                {
+                    img: "img/Inyeccion/bot-0062.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1zaLIiKKrpc95sCFSFlYOQYMFbldrb0qT"
+                },
+                {
+                    img: "img/Inyeccion/bot-0313.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1jMA1Hl3djmIy75wybAEH7lbw-lVI97AA"
+                },
+                {
+                    img: "img/Inyeccion/bot-0313-C.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1xqMil_iy-rDp8vEu5u_t6ZY4g6MGV6gg"
+                },
+                {
+                    img: "img/Inyeccion/bot-0318.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1bifgxRKmQRWlro_axFWF28CLveKwxZWw"
+                },
+                {
+                    img: "img/Inyeccion/bot-0318-C.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1-EirXX0yJGejHzXSeh4I-aKb62gcTnI3"
+                },
+                {
+                    img: "img/Inyeccion/bot-0325.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1d6xbaXhPXP9QbdIx90gZbsF-75W5aXRn"
+                },
+                {
+                    img: "img/Inyeccion/bot-0329.png",
+                    drive: "https://drive.google.com/uc?export=download&id=135_XEfUwIVCC5REn_UdFaLUIgAhxFn7C"
+                },
+                {
+                    img: "img/Inyeccion/bot-0355.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1WIXQsz2xv4y5hurgJzTFoffbbD5VUw1j"
+                },
+                {
+                    img: "img/Inyeccion/bot-0409-C.png",
+                    drive: "https://drive.google.com/uc?export=download&id=18BdTSL9ZNx5ir5QgeViLDcFm53pbeXVh"
+                },
+                {
+                    img: "img/Inyeccion/bot-0409.png",
+                    drive: "https://drive.google.com/uc?export=download&id=13HtuA1bMNk8PfmTIBHlpI0e52RmpXUqW"
+                },
+                {
+                    img: "img/Inyeccion/bot-0412-C.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1owxNM-rfvnNEveNr-Jd7vVqKs4iVsoZR"
+                },
+                {
+                    img: "img/Inyeccion/bot-0412-N.png",
+                    drive: "https://drive.google.com/uc?export=download&id=10zA3XxfIYcMY0A3vkzc8nDuc8L_KX2iJ"
+                },
+                {
+                    img: "img/Inyeccion/bot-0417.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1eY0gnTQ8AKVmLOFpAMEBdigA7BZgwOTW"
+                },
+                {
+                    img: "img/Inyeccion/bot-0419-Na.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1WijiDLRjTIdnSbOBinxEEgm1LJUGAvhK"
+                },
+                {
+                    img: "img/Inyeccion/bot-0419-Nam.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1oj87QHh1PmVPKx2tmQUBWNkzr_rR5fsD"
+                },
+                {
+                    img: "img/Inyeccion/bot-0421-Na.png",
+                    drive: "https://drive.google.com/uc?export=download&id=11gHENdXLhw-_X3b3b5SpOEAqW3S9Vf82"
+                },
+                {
+                    img: "img/Inyeccion/bot-0421-Nam.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1p-0Rs0WqCG9MsQr76W96h8fEkoI1m-2O"
+                },
+                {
+                    img: "img/Inyeccion/bot-0510.png",
+                    drive: "https://drive.google.com/uc?export=download&id=14H5o8WFVLkdvGdjlau0uuVuWqH2nHoEq"
+                },
+                {
+                    img: "img/Inyeccion/bot-0518.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1Jmp22x9tl1Wc5m8Mdh42TQ2VHz_S4wAp"
+                },
+                {
+                    img: "img/Inyeccion/bot-0526.png",
+                    drive: "https://drive.google.com/uc?export=download&id=19lLc2Nixwn6oJkIBQWMGY6gSry84rvXy"
+                },
+                {
+                    img: "img/Inyeccion/bot-0527.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1U4FqZ-7_TVAqonjEv7ZQ3ktMcqJO4MWM"
+                }
+            ],
+            pegado: [
+                {
+                    img: "img/Pegado/bot-0301-cafe.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1XMbF1gAbyFjhvWSESEoTpaSBbb9Jx0E4"
+                },
+                {
+                    img: "img/Pegado/bot-0301-negro.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1jMA1Hl3djmIy75wybAEH7lbw-lVI97AA"
+                },
+                {
+                    img: "img/Pegado/bot-0310-chocolate.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1dFydZkZEsPi6nD-sCxqQrb0k7geSiq-z"
+                },
+                {
+                    img: "img/Pegado/bot-0310-negro_1.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1_LU8AC5eDf74b9glRibRKT2xhrKjLw1B"
+                },
+                {
+                    img: "img/Pegado/bot-0420-negro.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1vNPU3u5E8wR8u1ascnoYd2zF8AHSHe9j"
+                },
+                {
+                    img: "img/Pegado/bot-0520-cafe.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1gUinDoXKVZcwO1TgzJjj-IsO7f5Mcw_h"
+                },
+                {
+                    img: "img/Pegado/bot-0481-fiusha.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1Dir89Z4WUOLbwCgxspSDFmWeDyB-B1YN"
+                },
+                {
+                    img: "img/Pegado/bot-0510-negro_1.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1CRwL8FDB-b9DeT2itzObfdkrC_7cVCTj"
+                },
+                {
+                    img: "img/Pegado/bot-0513-chocolate_1.png",
+                    drive: "https://drive.google.com/uc?export=download&id=183Q81_sOaLTiCPoR-HN8gjvO_BX4hNJ4"
+                },
+                {
+                    img: "img/Pegado/bot-0513-negro_1.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1WWGm5yqBH-UsIKa3usQJH5Gpdd2gg-IR"
+                },
+                {
+                    img: "img/Pegado/0936-negro.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1FipdkX9IvQDzPVvOPWjhjKknUAwklTcJ"
+                },
+                {
+                    img: "img/Pegado/bot-0939-fiusha.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1XPGFBiTDiKCtWhX-X1xT5AwxaZaDmFNj"
+                },
+                {
+                    img: "img/Pegado/bot-0947-naranja_1.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1KnMnp_SVp9PZNS_rpWWGyr4T6S6p6dnT"
+                },
+                {
+                    img: "img/Pegado/bot-0948-azul_1.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1H1ryD2pSKdfwxNl-Hz2qZ5sWcy4pkAjG"
+                },
+                {
+                    img: "img/Pegado/bot-0948-oxford.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1cGoqiF66uiFSuz_8KbX8kC9nvtj103W2"
+                },
+                {
+                    img: "img/Pegado/bot-0955-cafe_1.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1aqxVNN4DHKvGvJf7BaTtRndQUv8EMl7X"
+                },
+                {
+                    img: "img/Pegado/bot-0955-negro_1.png",
+                    drive: "https://drive.google.com/uc?export=download&id=1b5YwXFtSSuK2C8R7Gt9iXBLmnRwAon3H"
+                }
+            ]
+        };
 
         let usuarioInfo = null;
         let rolUsuario = null;
@@ -1434,99 +1847,284 @@
         const mobileNavButtons = document.querySelectorAll('#mobileSidebar .nav-button');
         const contentArea = document.getElementById('content-area');
 
-        // Content templates
+        // ========== TEMPLATE PARA LA SECCIÓN PRODUCTOS ==========
+        const productosTemplate = `
+    <div class="fade-in">
+        <div class="content-header">
+            <h2 class="content-title">Fichas Técnicas</h2>
+            <p class="content-subtitle">Descarga las fichas técnicas de nuestros productos. Haz clic en cualquier imagen para descargar el PDF.</p>
+        </div>
+        
+        <div class="productos-section">
+            <!-- Acordeón Inyección -->
+            <div class="acordeon">
+                <div class="acordeon-header" data-acordeon="inyeccion">
+                    <span>Inyección</span>
+                    <span class="acordeon-icon">▼</span>
+                </div>
+                <div class="acordeon-content" id="inyeccion-content">
+                    <div class="productos-grid" id="inyeccion-grid">
+                        <!-- Los botones se generarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Acordeón Pegado -->
+            <div class="acordeon">
+                <div class="acordeon-header" data-acordeon="pegado">
+                    <span>Pegado</span>
+                    <span class="acordeon-icon">▼</span>
+                </div>
+                <div class="acordeon-content" id="pegado-content">
+                    <div class="productos-grid" id="pegado-grid">
+                        <!-- Los botones se generarán dinámicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+
+        // Content templates - CORREGIDO
         const contentTemplates = {
             inicio: `
-                <div class="welcome-screen fade-in">
-                    <div class="logo-animado">
-                        <img src="img/mont.png" alt="Logo empresa" class="welcome-logo">
-                    </div>
-                    <h2 class="welcome-title">Bienvenido</h2>
-                    <p class="welcome-text">Explora nuestro catálogo de calzado de protección y encuentra la solución perfecta para tu seguridad laboral</p>
-                </div>
-            `,
+        <div class="welcome-screen fade-in">
+            <div class="logo-animado">
+                <img src="img/mont.png" alt="Logo empresa" class="welcome-logo">
+            </div>
+            <h2 class="welcome-title">Bienvenido</h2>
+            <p class="welcome-text">Explora nuestro catálogo de calzado de protección y encuentra la solución perfecta para tu seguridad laboral</p>
+        </div>
+    `,
             adn: `
-                <div class="fade-in">
-                    <div class="content-header">
-                        <h2 class="content-title">ADN Cliff</h2>
-                        <p class="content-subtitle">Esta plataforma está diseñada para compartir materiales de capacitación y reforzar el conocimiento de todo el equipo de Cliff and Company.</p>
-                    </div>
-                    <div class="video-grid">
-                        <div class="video-item">
-                            <iframe src="https://www.youtube.com/embed/3G3yRVtxMEQ" allowfullscreen></iframe>
-                            <p>Hola, soy Paco</p>
-                        </div>
-                        <div class="video-item">
-                            <iframe src="https://www.youtube.com/embed/lyZ7Z8dqx7c" allowfullscreen></iframe>
-                            <p>Introducción al ADN Cliff</p>
-                        </div>
-                        <div class="video-item">
-                            <iframe src="https://www.youtube.com/embed/z3qJxbdx7nA" allowfullscreen></iframe>
-                            <p>Valores</p>
-                        </div>
-                        <div class="video-item">
-                            <iframe src="https://www.youtube.com/embed/XAj3PMIIRlI" allowfullscreen></iframe>
-                            <p>Promesa de Marca</p>
-                        </div>
-                    </div>
+        <div class="fade-in">
+            <div class="content-header">
+                <h2 class="content-title">ADN Cliff</h2>
+                <p class="content-subtitle">Esta plataforma está diseñada para compartir materiales de capacitación y reforzar el conocimiento de todo el equipo de Cliff and Company.</p>
+            </div>
+            <div class="video-grid">
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/3G3yRVtxMEQ" allowfullscreen></iframe>
+                    <p>Hola, soy Paco</p>
                 </div>
-            `,
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/lyZ7Z8dqx7c" allowfullscreen></iframe>
+                    <p>Introducción al ADN Cliff</p>
+                </div>
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/z3qJxbdx7nA" allowfullscreen></iframe>
+                    <p>Valores</p>
+                </div>
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/XAj3PMIIRlI" allowfullscreen></iframe>
+                    <p>Promesa de Marca</p>
+                </div>
+            </div>
+        </div>
+    `,
             avisos: `
-                <div class="fade-in">
-                    <div class="content-header">
-                        <h2 class="content-title">Avisos</h2>
-                        <p class="content-subtitle">Mantente informado sobre las últimas noticias y actualizaciones</p>
-                    </div>
-                </div>
-            `,
+        <div class="fade-in">
+            <div class="content-header">
+                <h2 class="content-title">Avisos</h2>
+                <p class="content-subtitle">Mantente informado sobre las últimas noticias y actualizaciones</p>
+            </div>
+        </div>
+    `,
             humanos: `
-                <div class="fade-in">
-                    <div class="content-header">
-                        <h2 class="content-title">Recursos Humanos</h2>
-                        <p class="content-subtitle">Información importante para el equipo</p>
+        <div class="fade-in">
+            <div class="content-header">
+                <h2 class="content-title">Recursos Humanos</h2>
+                <p class="content-subtitle">Información importante para el equipo</p>
+            </div>
+            
+            <!-- Versión para desktop (lado a lado) -->
+            <div class="rh-grid-desktop">
+                <div class="rh-card">
+                    <h3>Menú Semanal</h3>
+                    <div class="menu-image-container">
+                        <img src="img/menu.png" alt="Menú de la semana">
                     </div>
-                    
-                    <!-- Versión para desktop (lado a lado) -->
-                    <div class="rh-grid-desktop">
-                        <div class="rh-card">
-                            <h3>Menú Semanal</h3>
-                            <div class="menu-image-container">
-                                <img src="img/menu.png" alt="Menú de la semana">
-                            </div>
-                            <p class="menu-updated">Actualizado semanalmente</p>
-                        </div>
-                        <div class="rh-card">
-                            <h3>🎉 Cumpleaños del Mes</h3>
-                            <div class="birthdays-container">
-                                <!-- Lista de cumpleaños se cargará aquí -->
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Versión para móvil (uno encima del otro) -->
-                    <div class="rh-grid-mobile">
-                        <div class="rh-card">
-                            <h3>Menú Semanal</h3>
-                            <div class="menu-image-container">
-                                <img src="img/menu.png" alt="Menú de la semana">
-                            </div>
-                            <p class="menu-updated">Actualizado semanalmente</p>
-                        </div>
-                        <div class="rh-card">
-                            <h3>🎉 Cumpleaños del Mes</h3>
-                            <div class="birthdays-container">
-                                <!-- Lista de cumpleaños se cargará aquí -->
-                            </div>
-                        </div>
+                    <p class="menu-updated">Actualizado semanalmente</p>
+                </div>
+                <div class="rh-card">
+                    <h3>🎉 Cumpleaños del Mes</h3>
+                    <div class="birthdays-container">
+                        <!-- Lista de cumpleaños se cargará aquí -->
                     </div>
                 </div>
-            `,
+            </div>
+            
+            <!-- Versión para móvil (uno encima del otro) -->
+            <div class="rh-grid-mobile">
+                <div class="rh-card">
+                    <h3>Menú Semanal</h3>
+                    <div class="menu-image-container">
+                        <img src="img/menu.png" alt="Menú de la semana">
+                    </div>
+                    <p class="menu-updated">Actualizado semanalmente</p>
+                </div>
+                <div class="rh-card">
+                    <h3>🎉 Cumpleaños del Mes</h3>
+                    <div class="birthdays-container">
+                        <!-- Lista de cumpleaños se cargará aquí -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    `,
+            productos: productosTemplate,
             docs: `
-                <iframe src="flipbook.html" style="width:100%; height:100%; border:none;"></iframe>
-            `
+        <iframe src="flipbook.html" style="width:100%; height:100%; border:none;"></iframe>
+    `
         };
 
-        // Función para cambiar de sección
+        // ========== FUNCIONES PARA PRODUCTOS ==========
+        function renderProductos() {
+            // Renderizar productos de inyección
+            const inyeccionGrid = document.getElementById('inyeccion-grid');
+            if (inyeccionGrid) {
+                let html = '';
+                productosData.inyeccion.forEach((producto, index) => {
+                    // Extraer el nombre del producto del nombre del archivo
+                    const nombre = producto.img.split('/').pop().replace('bot-', '').replace('.png', '').toUpperCase();
+                    html += `
+                <button class="producto-btn" data-drive="${producto.drive}" data-nombre="${nombre}">
+                    <img src="${producto.img}" alt="Producto ${nombre}" loading="lazy">
+                    <div class="producto-overlay">${nombre}</div>
+                </button>
+            `;
+                });
+                inyeccionGrid.innerHTML = html;
+            }
+
+            // Renderizar productos de pegado
+            const pegadoGrid = document.getElementById('pegado-grid');
+            if (pegadoGrid) {
+                let html = '';
+                productosData.pegado.forEach((producto, index) => {
+                    // Extraer el nombre del producto del nombre del archivo
+                    const nombre = producto.img.split('/').pop().replace('bot-', '').replace('.png', '').replace('_1', '').toUpperCase();
+                    html += `
+                <button class="producto-btn" data-drive="${producto.drive}" data-nombre="${nombre}">
+                    <img src="${producto.img}" alt="Producto ${nombre}" loading="lazy">
+                    <div class="producto-overlay">${nombre}</div>
+                </button>
+            `;
+                });
+                pegadoGrid.innerHTML = html;
+            }
+
+            // Agregar eventos a los botones
+            document.querySelectorAll('.producto-btn').forEach(btn => {
+                btn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const driveUrl = this.getAttribute('data-drive');
+                    const nombre = this.getAttribute('data-nombre');
+
+                    // Mostrar modal de confirmación
+                    showDownloadModal(nombre, driveUrl);
+                });
+            });
+        }
+
+        // Función para manejar acordeones
+        function setupAcordeones() {
+            const acordeonHeaders = document.querySelectorAll('.acordeon-header');
+
+            acordeonHeaders.forEach(header => {
+                header.addEventListener('click', function () {
+                    const target = this.getAttribute('data-acordeon');
+                    const content = document.getElementById(`${target}-content`);
+
+                    // Cerrar todos los acordeones
+                    acordeonHeaders.forEach(h => {
+                        if (h !== this) {
+                            h.classList.remove('active');
+                            const otherTarget = h.getAttribute('data-acordeon');
+                            const otherContent = document.getElementById(`${otherTarget}-content`);
+                            if (otherContent) otherContent.classList.remove('active');
+                        }
+                    });
+
+                    // Alternar el acordeón clickeado
+                    this.classList.toggle('active');
+                    content.classList.toggle('active');
+                });
+            });
+        }
+
+        // Función para mostrar el modal de descarga - VERSIÓN MEJORADA
+        function showDownloadModal(nombre, driveUrl) {
+            const modal = document.getElementById('downloadModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalText = document.getElementById('modalText');
+            const confirmBtn = document.getElementById('confirmDownload');
+            const cancelBtn = document.getElementById('cancelDownload');
+
+            modalTitle.textContent = `Descargar ${nombre}`;
+            modalText.textContent = `¿Estás seguro de que quieres descargar la ficha técnica de ${nombre}?`;
+
+            modal.classList.add('active');
+
+            // Configurar el botón de confirmar
+            confirmBtn.onclick = async function () {
+                try {
+                    // Deshabilitar botón mientras se procesa
+                    confirmBtn.disabled = true;
+                    confirmBtn.innerHTML = '<span class="loading"></span> Registrando...';
+
+                    // 1. Primero registrar la descarga
+                    const registroExitoso = await registrarDescarga(nombre, "Ficha Técnica");
+
+                    if (registroExitoso) {
+                        // 2. Después abrir el enlace de descarga
+                        window.open(driveUrl, '_blank');
+
+                        // 3. Cerrar modal después de un breve delay
+                        setTimeout(() => {
+                            modal.classList.remove('active');
+                            // Restaurar botón
+                            confirmBtn.disabled = false;
+                            confirmBtn.textContent = 'Descargar';
+                        }, 1000);
+                    } else {
+                        // Si falla el registro, mostrar error pero permitir descarga
+                        mostrarNotificacion('⚠️ No se pudo registrar la descarga, pero puedes descargar el archivo', 'warning');
+                        window.open(driveUrl, '_blank');
+                        modal.classList.remove('active');
+                        confirmBtn.disabled = false;
+                        confirmBtn.textContent = 'Descargar';
+                    }
+
+                } catch (error) {
+                    console.error('Error en proceso de descarga:', error);
+                    // Fallback: intentar descarga de todos modos
+                    window.open(driveUrl, '_blank');
+                    modal.classList.remove('active');
+                    confirmBtn.disabled = false;
+                    confirmBtn.textContent = 'Descargar';
+                }
+            };
+
+            // Configurar el botón de cancelar
+            cancelBtn.onclick = function () {
+                modal.classList.remove('active');
+                // Asegurarse de restaurar el botón de confirmar
+                confirmBtn.disabled = false;
+                confirmBtn.textContent = 'Descargar';
+            };
+
+            // Cerrar modal al hacer clic fuera
+            modal.onclick = function (e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    confirmBtn.disabled = false;
+                    confirmBtn.textContent = 'Descargar';
+                }
+            };
+        }
+
+        // MODIFICAR LA FUNCIÓN cambiarSeccion
         function cambiarSeccion(section, buttonElement) {
             // Verificar permiso
             if (!verificarPermisoSeccion(section)) {
@@ -1563,154 +2161,295 @@
                 setTimeout(renderBirthdays, 100);
             }
 
+            // Renderizar productos si es la sección de productos
+            if (section === "productos") {
+                setTimeout(() => {
+                    renderProductos();
+                    setupAcordeones();
+                }, 100);
+            }
+
             // Cerrar menú móvil si está abierto
             cerrarMenuMovil();
         }
 
-        // Navigation click handler para desktop
-        navButtons.forEach(button => {
-            button.addEventListener('click', function (event) {
-                const section = this.getAttribute('data-section');
-                cambiarSeccion(section, this);
-                createTouchFeedback(event);
-            });
-        });
+        // ========== FUNCIONES PARA MÓVIL ==========
+        function toggleMobileMenu() {
+            const mobileToggle = document.getElementById('mobileMenuToggle');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const mobileOverlay = document.getElementById('mobileOverlay');
 
-        // Navigation click handler para móvil
-        mobileNavButtons.forEach(button => {
-            button.addEventListener('click', function (event) {
-                const section = this.getAttribute('data-section');
-                cambiarSeccion(section, this);
-                createTouchFeedback(event);
-            });
-        });
-
-        // Touch feedback effect
-        function createTouchFeedback(event) {
-            const feedback = document.createElement('div');
-            feedback.className = 'touch-feedback';
-            feedback.style.left = (event.clientX - 150) + 'px';
-            feedback.style.top = (event.clientY - 150) + 'px';
-            document.body.appendChild(feedback);
-
-            setTimeout(() => {
-                feedback.remove();
-            }, 600);
-        }
-
-        // ========== MENÚ MÓVIL ==========
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const mobileOverlay = document.getElementById('mobileOverlay');
-        const mobileSidebar = document.getElementById('mobileSidebar');
-
-        function abrirMenuMovil() {
-            mobileMenuToggle.classList.add('active');
-            mobileOverlay.classList.add('active');
-            mobileSidebar.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            mobileToggle.classList.toggle('active');
+            mobileSidebar.classList.toggle('active');
+            mobileOverlay.classList.toggle('active');
         }
 
         function cerrarMenuMovil() {
-            mobileMenuToggle.classList.remove('active');
-            mobileOverlay.classList.remove('active');
+            const mobileToggle = document.getElementById('mobileMenuToggle');
+            const mobileSidebar = document.getElementById('mobileSidebar');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+
+            mobileToggle.classList.remove('active');
             mobileSidebar.classList.remove('active');
-            document.body.style.overflow = '';
+            mobileOverlay.classList.remove('active');
         }
 
-        // Event listeners para menú móvil
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', abrirMenuMovil);
-        }
+        // ========== SETUP EVENT LISTENERS ==========
+        function setupEventListeners() {
+            // Desktop nav buttons
+            navButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const section = this.getAttribute('data-section');
+                    cambiarSeccion(section, this);
+                });
+            });
 
-        if (mobileOverlay) {
-            mobileOverlay.addEventListener('click', cerrarMenuMovil);
-        }
+            // Mobile nav buttons
+            mobileNavButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const section = this.getAttribute('data-section');
+                    cambiarSeccion(section, this);
+                });
+            });
 
-        // Cerrar menú al hacer clic en cualquier enlace dentro del menú móvil
-        mobileSidebar.addEventListener('click', (e) => {
-            if (e.target.classList.contains('nav-button')) {
-                setTimeout(cerrarMenuMovil, 300);
+            // Mobile menu toggle
+            const mobileToggle = document.getElementById('mobileMenuToggle');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+
+            if (mobileToggle) {
+                mobileToggle.addEventListener('click', toggleMobileMenu);
             }
-        });
 
-        // ========== SISTEMA DE LOGOUT ==========
-        function setupLogout() {
+            if (mobileOverlay) {
+                mobileOverlay.addEventListener('click', cerrarMenuMovil);
+            }
+
+            // Logout buttons
             const logoutBtn = document.getElementById('logout-btn');
             const logoutBtnMobile = document.getElementById('logout-btn-mobile');
 
-            function logout() {
-                if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
-                    localStorage.removeItem('currentUser');
-                    sessionStorage.removeItem('userLoggedIn');
-                    window.location.href = 'index.html';
-                }
-            }
-
             if (logoutBtn) {
-                logoutBtn.addEventListener('click', logout);
+                logoutBtn.addEventListener('click', function () {
+                    localStorage.removeItem('currentUser');
+                    window.location.href = 'index.html';
+                });
             }
 
             if (logoutBtnMobile) {
-                logoutBtnMobile.addEventListener('click', logout);
+                logoutBtnMobile.addEventListener('click', function () {
+                    localStorage.removeItem('currentUser');
+                    window.location.href = 'index.html';
+                });
+            }
+        }
+
+        // ========== FUNCIÓN PARA CONFIGURAR BOTONES DOCS ==========
+        function setupDocsButtons() {
+            const docsBtnDesktop = document.getElementById('docs-button');
+            const docsBtnMobile = document.getElementById('docs-button-mobile');
+
+            if (docsBtnDesktop) {
+                docsBtnDesktop.addEventListener('click', function () {
+                    cambiarSeccion('docs', this);
+                });
+            }
+
+            if (docsBtnMobile) {
+                docsBtnMobile.addEventListener('click', function () {
+                    cambiarSeccion('docs', this);
+                });
             }
         }
 
         // ========== INICIALIZACIÓN ==========
-        document.addEventListener('DOMContentLoaded', function () {
-            // Verificar autenticación
+        function init() {
+            console.log('Inicializando intranet...');
+
+            // Obtener usuario actual
             usuarioInfo = obtenerUsuarioActual();
 
             if (!usuarioInfo) {
-                alert('Por favor inicia sesión primero');
+                // Redirigir al login si no hay usuario
+                console.warn('No hay usuario, redirigiendo...');
                 window.location.href = 'index.html';
                 return;
             }
 
-            // Obtener rol y permisos
+            console.log('Usuario:', usuarioInfo);
+
+            // Obtener rol del usuario
             rolUsuario = obtenerRolUsuario(usuarioInfo.username);
+            console.log('Rol:', rolUsuario);
 
-            // Obtener permisos del rol
-            const infoRol = permisosPorRol[rolUsuario];
-            permisosUsuario = infoRol ? infoRol.permisos : ['inicio', 'adn', 'avisos'];
+            // Obtener permisos según el rol
+            if (permisosPorRol[rolUsuario]) {
+                permisosUsuario = permisosPorRol[rolUsuario].permisos;
+            } else {
+                permisosUsuario = permisosPorRol['empleado'].permisos;
+            }
+            console.log('Permisos:', permisosUsuario);
 
-            // Mostrar info en consola
-            console.log(`👤 Usuario: ${usuarioInfo.nombreCompleto || usuarioInfo.username}`);
-            console.log(`🎭 Rol: ${rolUsuario} (${infoRol.nombre})`);
-            console.log(`🔑 Permisos: ${permisosUsuario.join(', ')}`);
-
-            // Aplicar permisos en la UI
+            // Aplicar permisos en la interfaz
             aplicarPermisosEnUI();
 
-            // Configurar logout
-            setupLogout();
+            // Configurar event listeners
+            setupEventListeners();
+            setupDocsButtons();
 
-            // Cargar la pantalla de inicio por defecto
-            contentArea.innerHTML = contentTemplates.inicio;
-            personalizarMensajeBienvenida();
+            // Cargar la sección inicial
+            cambiarSeccion('inicio', document.querySelector('.nav-button.active'));
 
-            // Configurar protección contra clic derecho
-            document.addEventListener('contextmenu', function (e) {
-                e.preventDefault();
+            // Cargar cumpleaños si es necesario
+            renderBirthdays();
+
+            console.log('Intranet inicializada correctamente');
+        }
+
+        // ========== INICIALIZAR AL CARGAR LA PÁGINA ==========
+        document.addEventListener('DOMContentLoaded', function () {
+            // Agregar efecto de ripple para feedback táctil
+            document.body.addEventListener('touchstart', function (e) {
+                const touch = e.touches[0];
+                const ripple = document.createElement('div');
+                ripple.className = 'touch-feedback';
+                ripple.style.left = (touch.clientX - 100) + 'px';
+                ripple.style.top = (touch.clientY - 100) + 'px';
+                document.body.appendChild(ripple);
+
+                setTimeout(() => {
+                    ripple.remove();
+                }, 600);
             });
 
-            // Detectar tamaño de pantalla para ajustar menú
-            function ajustarMenuPorTamano() {
-                if (window.innerWidth <= 768) {
-                    // En móvil, asegurar que el sidebar de desktop esté oculto
-                    document.querySelector('.sidebar').style.display = 'none';
-                    mobileMenuToggle.style.display = 'flex';
-                } else {
-                    // En desktop, mostrar sidebar y ocultar menú móvil
-                    document.querySelector('.sidebar').style.display = 'flex';
-                    mobileMenuToggle.style.display = 'none';
-                    cerrarMenuMovil();
-                }
-            }
-
-            // Ejecutar al cargar y al redimensionar
-            ajustarMenuPorTamano();
-            window.addEventListener('resize', ajustarMenuPorTamano);
+            // Inicializar la aplicación
+            setTimeout(init, 100);
         });
+
+        // 🔧 Registrar descarga
+        async function registrarDescarga(modelo, tipo = "Ficha Técnica") {
+            try {
+                const usuarioActual = obtenerUsuarioActual();
+
+                if (!usuarioActual) {
+                    console.log("⚠️ No hay usuario registrado");
+                    return false;
+                }
+
+                console.log("📤 Registrando descarga:", usuarioActual.username, modelo);
+
+                // ⚠️ USAR SOLO UNA URL - ELIMINA LA DUPLICACIÓN
+                const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz81OMUvpUdtXOkZDDWB6gAWEuttp_K2RfA951Hsou5bb1IZs_OaJWCjTplC3QkGXqRZQ/exec";
+
+                // Preparar datos
+                const datos = {
+                    user: usuarioActual.username,
+                    nombre: usuarioActual.nombreCompleto || usuarioActual.username,
+                    accion: 'descarga',
+                    modelo: modelo,
+                    tipo: tipo,
+                    fecha: new Date().toLocaleDateString('es-MX'),
+                    hora: new Date().toLocaleTimeString('es-MX'),
+                    resultado: 'Correcto',
+                    plataforma: navigator.platform,
+                    timestamp: Date.now()
+                };
+
+                console.log("📦 Datos a enviar:", datos);
+
+                // ⚠️ ELIMINA EL MÉTODO DUPLICADO - Usa solo UNO
+                // Método simple y confiable usando imagen
+                const img = new Image();
+                const urlParams = new URLSearchParams();
+
+                Object.keys(datos).forEach(key => {
+                    if (datos[key]) {
+                        urlParams.append(key, datos[key]);
+                    }
+                });
+
+                // ⚠️ IMPORTANTE: Agrega un parámetro único para evitar caché
+                urlParams.append('nocache', Date.now());
+
+                img.src = `${SCRIPT_URL}?${urlParams.toString()}`;
+                console.log("✅ Registro enviado:", modelo);
+
+                // ⭐⭐ NUEVO: ESPERAR 4 SEGUNDOS PARA EL EFECTO VISUAL ⭐⭐
+                await new Promise(resolve => setTimeout(resolve, 4000));
+
+                // Mostrar notificación DESPUÉS de los 4 segundos
+                mostrarNotificacion(`✅ Registrada descarga de ${modelo}`);
+                return true;
+
+            } catch (error) {
+                console.error("❌ Error al registrar descarga:", error);
+                // ⭐⭐ NUEVO: ESPERAR 4 SEGUNDOS AUN CON ERROR ⭐⭐
+                await new Promise(resolve => setTimeout(resolve, 4000));
+                // No mostrar error para no interrumpir la descarga
+                return false;
+            }
+        }
+        // Función para mostrar notificaciones
+        function mostrarNotificacion(mensaje, tipo = 'success') {
+            // Crear elemento de notificación
+            const notificacion = document.createElement('div');
+            notificacion.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${tipo === 'error' ? '#dc3545' : '#28a745'};
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideInRight 0.3s ease;
+        ">
+            <span>${mensaje}</span>
+        </div>
+    `;
+
+            document.body.appendChild(notificacion);
+
+            // Auto-eliminar después de 3 segundos
+            setTimeout(() => {
+                notificacion.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notificacion.remove(), 300);
+            }, 3000);
+        }
+
+        // Agregar estilos de animación si no existen
+        if (!document.getElementById('notificacion-styles')) {
+            const style = document.createElement('style');
+            style.id = 'notificacion-styles';
+            style.textContent = `
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    `;
+            document.head.appendChild(style);
+        }
+
     </script>
 </body>
 

@@ -5,57 +5,274 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login IntraNET Cliff</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+    
     body {
-      font-family: Arial, sans-serif;
-      background: #000;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
       color: #ffcc00;
       display: flex;
       align-items: center;
       justify-content: center;
       height: 100vh;
       margin: 0;
-    }
-    .login-box {
-      background: #111;
-      padding: 40px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
-      text-align: center;
-      width: 320px;
+      overflow: hidden;
       position: relative;
     }
+    
+    /* Fondo animado sutil */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(255, 204, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255, 204, 0, 0.05) 0%, transparent 50%);
+      animation: pulse 20s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      0% { opacity: 0.3; }
+      100% { opacity: 0.7; }
+    }
+    
+    .login-box {
+      background: rgba(17, 17, 17, 0.95);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 
+        0 10px 40px rgba(255, 204, 0, 0.2),
+        0 0 0 1px rgba(255, 204, 0, 0.1);
+      text-align: center;
+      width: 380px;
+      position: relative;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      animation: fadeIn 0.5s ease-out;
+      border: 1px solid rgba(255, 204, 0, 0.2);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
     .logo {
       position: absolute;
-      top: 15px;
-      left: 15px;
-      width: 60px;
-      height: 60px;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 80px;
+      background: #111;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid #ffcc00;
+      box-shadow: 0 0 20px rgba(255, 204, 0, 0.3);
     }
+    
     .logo img {
-      width: 100%;
-      height: 100%;
+      width: 70%;
+      height: 70%;
       object-fit: contain;
+      filter: brightness(1.2);
     }
+    
+    h2 {
+      margin-top: 30px;
+      margin-bottom: 25px;
+      font-size: 28px;
+      letter-spacing: 1px;
+      color: #ffcc00;
+      text-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
     input {
       display: block;
       width: 100%;
-      margin: 10px 0;
-      padding: 10px;
-      border: none;
-      border-radius: 5px;
-      box-sizing: border-box;
+      padding: 14px;
+      border: 2px solid rgba(255, 204, 0, 0.3);
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      outline: none;
     }
+    
+    input:focus {
+      border-color: #ffcc00;
+      box-shadow: 0 0 15px rgba(255, 204, 0, 0.3);
+      transform: translateY(-2px);
+    }
+    
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
     button {
-      background: #ffcc00;
+      background: linear-gradient(135deg, #ffcc00 0%, #ffaa00 100%);
       color: #000;
       border: none;
-      padding: 10px;
+      padding: 15px;
       cursor: pointer;
-      border-radius: 5px;
+      border-radius: 8px;
       width: 100%;
       font-weight: bold;
+      font-size: 16px;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+      position: relative;
+      overflow: hidden;
     }
-    p { margin-top: 10px; color: #ffcc00; }
+    
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255, 204, 0, 0.4);
+    }
+    
+    button:active {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(255, 204, 0, 0.3);
+    }
+    
+    button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%);
+      transform-origin: 50% 50%;
+    }
+    
+    button:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+    
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 0.5;
+      }
+      100% {
+        transform: scale(20, 20);
+        opacity: 0;
+      }
+    }
+    
+    #mensaje {
+      margin-top: 20px;
+      min-height: 24px;
+      font-size: 14px;
+      padding: 8px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+    
+    .success {
+      color: #4CAF50;
+      background: rgba(76, 175, 80, 0.1);
+      border: 1px solid rgba(76, 175, 80, 0.3);
+    }
+    
+    .error {
+      color: #f44336;
+      background: rgba(244, 67, 54, 0.1);
+      border: 1px solid rgba(244, 67, 54, 0.3);
+    }
+    
+    .warning {
+      color: #ff9800;
+      background: rgba(255, 152, 0, 0.1);
+      border: 1px solid rgba(255, 152, 0, 0.3);
+    }
+    
+    .info {
+      color: #2196F3;
+      background: rgba(33, 150, 243, 0.1);
+      border: 1px solid rgba(33, 150, 243, 0.3);
+    }
+    
+    .footer-info {
+      margin-top: 25px;
+      padding-top: 15px;
+      border-top: 1px solid rgba(255, 204, 0, 0.1);
+      font-size: 12px;
+      color: rgba(255, 204, 0, 0.6);
+    }
+    
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255, 204, 0, 0.7);
+      cursor: pointer;
+      font-size: 18px;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .password-toggle:hover {
+      color: #ffcc00;
+      background: rgba(255, 204, 0, 0.1);
+    }
+    
+    /* Responsive */
+    @media (max-width: 480px) {
+      .login-box {
+        width: 90%;
+        padding: 30px 20px;
+        margin: 0 10px;
+      }
+      
+      h2 {
+        font-size: 24px;
+        margin-top: 25px;
+      }
+    }
+    
+    /* Animación de carga */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255, 204, 0, 0.3);
+      border-radius: 50%;
+      border-top-color: #ffcc00;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -65,14 +282,30 @@
     </div>
     <h2>IntraNET Cliff</h2>
     
-    <input type="text" id="user" placeholder="Usuario" />
-    <input type="password" id="pass" placeholder="Contraseña" />
-    <button onclick="procesarLogin()">Ingresar</button>
+    <div class="input-group">
+      <input type="text" id="user" placeholder="Usuario" autocomplete="username" />
+    </div>
+    
+    <div class="input-group">
+      <input type="password" id="pass" placeholder="Contraseña" autocomplete="current-password" />
+      <button type="button" class="password-toggle" id="togglePassword">👁️</button>
+    </div>
+    
+    <button onclick="procesarLogin()" id="loginBtn">
+      <span id="btnText">Ingresar</span>
+    </button>
+    
     <div id="mensaje"></div>
+    
+    <div class="footer-info">
+      Sistema de acceso seguro | v2.0
+    </div>
   </div>
+
   <script>
-    // 🔧 URL de tu Google Apps Script para registros
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwGmb0xD0ydNgdSmsd8pYwAMYMMmNRr7aNb0JG8RZWPzXrUCKykNcJXOoqhVBmy3D26sg/exec";
+    // 🔧 URLs de los scripts (nuevo para descargas)
+    const SCRIPT_LOGIN_URL = "https://script.google.com/macros/s/AKfycbwGmb0xD0ydNgdSmsd8pYwAMYMMmNRr7aNb0JG8RZWPzXrUCKykNcJXOoqhVBmy3D26sg/exec";
+    const SCRIPT_DESCARGAS_URL = "https://script.google.com/macros/s/AKfycbz81OMUvpUdtXOkZDDWB6gAWEuttp_K2RfA951Hsou5bb1IZs_OaJWCjTplC3QkGXqRZQ/exec";
     
     // 🔧 USUARIOS VÁLIDOS CON NOMBRE COMPLETO
     const usuariosValidos = [
@@ -101,63 +334,42 @@
       { usuario: "JoseAlfredo", nombre: "José Alfredo Cruz", password: "0501" }
     ];
 
-    async function procesarLogin() {
-      const user = document.getElementById("user").value.trim();
-      const pass = document.getElementById("pass").value.trim();
-      const mensaje = document.getElementById("mensaje");
-
-      mensaje.textContent = "Verificando...";
-      mensaje.style.color = "yellow";
-
-      if (!user || !pass) {
-        mensaje.textContent = "Completa los campos.";
-        mensaje.style.color = "orange";
-        return;
-      }
-
-      // Validación local
-      const usuarioEncontrado = usuariosValidos.find(u => 
-        u.usuario.toLowerCase() === user.toLowerCase() && 
-        u.password === pass
-      );
-
-      if (usuarioEncontrado) {
-        mensaje.textContent = "✅ Acceso permitido";
-        mensaje.style.color = "lightgreen";
-        
-        // 🔧 REGISTRAR EN GOOGLE SHEETS - CORRECTO
-        registrarEnGoogleSheets(user, pass, "Correcto");
-        
-        setTimeout(() => {
-          // Guardar TODOS los datos del usuario
-          localStorage.setItem('currentUser', JSON.stringify({
-            username: usuarioEncontrado.usuario,
-            nombreCompleto: usuarioEncontrado.nombre,
-            loginTime: Date.now()
-          }));
-          
-          window.location.href = "intranet.html";
-        }, 1500);
-        
-      } else {
-        mensaje.textContent = "❌ Usuario o contraseña incorrectos";
-        mensaje.style.color = "red";
-        
-        // 🔧 REGISTRAR EN GOOGLE SHEETS - INCORRECTO
-        registrarEnGoogleSheets(user, pass, "Incorrecto");
-      }
-    }
-
-    // 🔧 FUNCIÓN para registrar en Google Sheets
-    function registrarEnGoogleSheets(usuario, password, resultado) {
+    // 🔧 FUNCIÓN MEJORADA para registrar en Google Sheets
+    async function registrarEnGoogleSheets(usuario, password, resultado) {
       try {
-        console.log("📤 Enviando registro:", usuario, resultado);
+        console.log("📤 Enviando registro de login:", { usuario, resultado });
+        
+        const usuarioEncontrado = usuariosValidos.find(u => 
+          u.usuario.toLowerCase() === usuario.toLowerCase()
+        );
+        
+        // Preparar datos completos
+        const datos = {
+          user: usuario,
+          nombre: usuarioEncontrado ? usuarioEncontrado.nombre : usuario,
+          pass: password ? '***' + password.slice(-2) : '', // Solo mostrar últimos 2 dígitos
+          accion: 'login',
+          resultado: resultado,
+          fecha: new Date().toLocaleDateString('es-MX'),
+          hora: new Date().toLocaleTimeString('es-MX'),
+          plataforma: navigator.platform,
+          userAgent: navigator.userAgent.substring(0, 100),
+          timestamp: Date.now(),
+          ip: await obtenerIP() // Función opcional para obtener IP
+        };
+        
+        // Enviar usando el método de imagen (compatible con todos los navegadores)
+        const url = new URL(SCRIPT_LOGIN_URL);
+        Object.keys(datos).forEach(key => {
+          if (datos[key]) {
+            url.searchParams.append(key, encodeURIComponent(datos[key]));
+          }
+        });
         
         const img = new Image();
-        const url = `${scriptURL}?user=${encodeURIComponent(usuario)}&pass=${encodeURIComponent(password)}&resultado=${resultado}&timestamp=${Date.now()}`;
-        img.src = url;
+        img.src = url.toString();
         
-        console.log("✅ Registro enviado via imagen:", usuario, resultado);
+        console.log("✅ Registro de login enviado:", usuario, resultado);
         return true;
         
       } catch (error) {
@@ -165,6 +377,120 @@
         return false;
       }
     }
+    
+    // Función opcional para obtener IP (usando servicio público)
+    async function obtenerIP() {
+      try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip;
+      } catch {
+        return 'No disponible';
+      }
+    }
+
+    async function procesarLogin() {
+      const userInput = document.getElementById("user");
+      const passInput = document.getElementById("pass");
+      const mensaje = document.getElementById("mensaje");
+      const loginBtn = document.getElementById("loginBtn");
+      const btnText = document.getElementById("btnText");
+      
+      const user = userInput.value.trim();
+      const pass = passInput.value.trim();
+
+      // Limpiar mensaje anterior
+      mensaje.textContent = "";
+      mensaje.className = "";
+      
+      if (!user || !pass) {
+        mostrarMensaje("Completa todos los campos.", "warning");
+        userInput.focus();
+        return;
+      }
+
+      // Mostrar estado de carga
+      btnText.innerHTML = '<span class="loading"></span> Verificando...';
+      loginBtn.disabled = true;
+      
+      // Validación local
+      const usuarioEncontrado = usuariosValidos.find(u => 
+        u.usuario.toLowerCase() === user.toLowerCase() && 
+        u.password === pass
+      );
+
+      if (usuarioEncontrado) {
+        mostrarMensaje("✅ Acceso permitido. Redirigiendo...", "success");
+        
+        // 🔧 REGISTRAR EN GOOGLE SHEETS - CORRECTO
+        registrarEnGoogleSheets(user, pass, "Correcto");
+        
+        // Guardar información extendida del usuario
+        const userData = {
+          username: usuarioEncontrado.usuario,
+          nombreCompleto: usuarioEncontrado.nombre,
+          loginTime: Date.now(),
+          sessionId: generateSessionId(),
+          userAgent: navigator.userAgent,
+          platform: navigator.platform
+        };
+        
+        localStorage.setItem('currentUser', JSON.stringify(userData));
+        
+        // Retraso para mostrar mensaje y luego redirigir
+        setTimeout(() => {
+          window.location.href = "intranet.html";
+        }, 1500);
+        
+      } else {
+        mostrarMensaje("❌ Usuario o contraseña incorrectos", "error");
+        
+        // 🔧 REGISTRAR EN GOOGLE SHEETS - INCORRECTO
+        registrarEnGoogleSheets(user, pass, "Incorrecto");
+        
+        // Efecto de vibración en los inputs
+        userInput.style.animation = "shake 0.5s";
+        passInput.style.animation = "shake 0.5s";
+        setTimeout(() => {
+          userInput.style.animation = "";
+          passInput.style.animation = "";
+        }, 500);
+        
+        // Restaurar botón
+        btnText.textContent = "Ingresar";
+        loginBtn.disabled = false;
+        passInput.value = "";
+        passInput.focus();
+      }
+    }
+    
+    // Función para generar ID de sesión único
+    function generateSessionId() {
+      return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+    
+    // Función para mostrar mensajes con estilos
+    function mostrarMensaje(texto, tipo) {
+      const mensaje = document.getElementById("mensaje");
+      mensaje.textContent = texto;
+      mensaje.className = tipo;
+      
+      // Restaurar botón si no es éxito
+      if (tipo !== "success") {
+        const btnText = document.getElementById("btnText");
+        const loginBtn = document.getElementById("loginBtn");
+        btnText.textContent = "Ingresar";
+        loginBtn.disabled = false;
+      }
+    }
+
+    // Toggle para mostrar/ocultar contraseña
+    document.getElementById("togglePassword").addEventListener("click", function() {
+      const passInput = document.getElementById("pass");
+      const type = passInput.getAttribute("type") === "password" ? "text" : "password";
+      passInput.setAttribute("type", type);
+      this.textContent = type === "password" ? "👁️" : "👁️‍🗨️";
+    });
 
     // Permitir login con Enter
     document.getElementById("pass").addEventListener("keypress", function(event) {
@@ -179,10 +505,49 @@
       const userParam = urlParams.get('user');
       if (userParam) {
         document.getElementById('user').value = userParam;
+        document.getElementById('pass').focus();
       }
     }
 
-    window.addEventListener('load', cargarUsuarioDesdeURL);
+    // Auto-focus en usuario al cargar
+    window.addEventListener('load', function() {
+      cargarUsuarioDesdeURL();
+      if (!document.getElementById('user').value) {
+        document.getElementById('user').focus();
+      }
+      
+      // Agregar animación de shake si no existe
+      if (!document.getElementById('shake-animation')) {
+        const style = document.createElement('style');
+        style.id = 'shake-animation';
+        style.textContent = `
+          @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    });
+    
+    // Proteger contra refresco accidental
+    window.addEventListener('beforeunload', function(e) {
+      const userInput = document.getElementById("user").value;
+      if (userInput) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    });
+    
+    // Mostrar información de debug en consola
+    console.log("=== IntraNET Cliff Login ===");
+    console.log("Versión: 2.0");
+    console.log("Usuarios registrados:", usuariosValidos.length);
+    console.log("User Agent:", navigator.userAgent);
+    console.log("Plataforma:", navigator.platform);
+    console.log("========================");
+
   </script>
 </body>
 </html>
