@@ -2059,54 +2059,73 @@
             });
         }
 
-        // Función para manejar acordeones - VERSIÓN CORREGIDA PARA MÓVIL
-        function setupAcordeones() {
-            const acordeonHeaders = document.querySelectorAll('.acordeon-header');
-
-            acordeonHeaders.forEach(header => {
-                // Remover event listeners anteriores para evitar duplicados
-                header.removeEventListener('click', handleAcordeonClick);
-                header.addEventListener('click', handleAcordeonClick);
-
-                // También agregar soporte táctil
-                header.addEventListener('touchstart', handleAcordeonClick, { passive: true });
-            });
-
-            function handleAcordeonClick(e) {
-                // Prevenir comportamiento por defecto en móvil
-                e.preventDefault();
-                e.stopPropagation();
-
-                const target = this.getAttribute('data-acordeon');
-                const content = document.getElementById(`${target}-content`);
-
-                // Verificar si ya está activo
-                const isActive = this.classList.contains('active');
-
-                // Cerrar todos los acordeones primero
-                acordeonHeaders.forEach(h => {
-                    h.classList.remove('active');
-                    const otherTarget = h.getAttribute('data-acordeon');
-                    const otherContent = document.getElementById(`${otherTarget}-content`);
-                    if (otherContent) {
-                        otherContent.classList.remove('active');
-                        otherContent.style.maxHeight = '0';
-                    }
-                });
-
-                // Si no estaba activo, abrirlo
-                if (!isActive) {
-                    this.classList.add('active');
-                    content.classList.add('active');
-
-                    // Establecer altura máxima para animación
-                    content.style.maxHeight = content.scrollHeight + 'px';
-                }
-
-                // También cerrar menú móvil si está abierto
-                cerrarMenuMovil();
-            }
+        // Función para manejar acordeones - VERSIÓN CORREGIDA COMPLETA
+function setupAcordeones() {
+    const acordeonHeaders = document.querySelectorAll('.acordeon-header');
+    
+    // Primero, limpiar todos los event listeners existentes
+    acordeonHeaders.forEach(header => {
+        // Clonar y reemplazar para limpiar event listeners
+        const newHeader = header.cloneNode(true);
+        header.parentNode.replaceChild(newHeader, header);
+    });
+    
+    // Volver a obtener los elementos
+    const refreshedHeaders = document.querySelectorAll('.acordeon-header');
+    
+    // Agregar event listeners frescos
+    refreshedHeaders.forEach(header => {
+        // Usar la misma función para ambos eventos
+        header.addEventListener('click', toggleAcordeon);
+        header.addEventListener('touchstart', function(e) {
+            // Para móvil, prevenir scroll accidental
+            e.preventDefault();
+            toggleAcordeon.call(this, e);
+        }, { passive: false });
+    });
+    
+    function toggleAcordeon(e) {
+        // Prevenir comportamiento por defecto si es evento táctil
+        if (e.type === 'touchstart') {
+            e.preventDefault();
         }
+        
+        const target = this.getAttribute('data-acordeon');
+        const content = document.getElementById(`${target}-content`);
+        
+        // Verificar si ya está activo
+        const isActive = this.classList.contains('active');
+        
+        // Cerrar todos los acordeones
+        refreshedHeaders.forEach(h => {
+            const otherTarget = h.getAttribute('data-acordeon');
+            const otherContent = document.getElementById(`${otherTarget}-content`);
+            
+            if (h !== this) {
+                h.classList.remove('active');
+                if (otherContent) {
+                    otherContent.classList.remove('active');
+                    otherContent.style.maxHeight = null;
+                }
+            }
+        });
+        
+        // Si no estaba activo, abrirlo
+        if (!isActive) {
+            this.classList.add('active');
+            content.classList.add('active');
+            content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+            // Si ya estaba activo, cerrarlo
+            this.classList.remove('active');
+            content.classList.remove('active');
+            content.style.maxHeight = null;
+        }
+        
+        // Cerrar menú móvil si está abierto
+        cerrarMenuMovil();
+    }
+}
 
         // Función para mostrar el modal de descarga - VERSIÓN MEJORADA
         function showDownloadModal(nombre, driveUrl) {
@@ -2507,5 +2526,6 @@
 
     </script>
 </body>
+
 
 </html>
