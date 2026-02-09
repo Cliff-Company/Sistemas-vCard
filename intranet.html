@@ -7,21 +7,20 @@
     <title>Cliff Intranet</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="css/styless.css" />
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600;700&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --primary: #0A0A0A;
-            --secondary: #1A1A1A;
-            --accent: #FFD700;
-            --accent-dark: #FFA500;
-            --accent-glow: rgba(255, 215, 0, 0.4);
-            --text-primary: #FFFFFF;
-            --text-secondary: #CCCCCC;
-            --surface: #141414;
-            --surface-light: #1F1F1F;
-            --border: rgba(255, 215, 0, 0.3);
-            --shadow: rgba(0, 0, 0, 0.7);
+            --primary-black: #000000;
+            --secondary-black: #1a1a1a;
+            --tertiary-black: #2d2d2d;
+            --primary-yellow: #FFC107;
+            --secondary-yellow: #FFD54F;
+            --dark-yellow: #FFA000;
+            --text-white: #FFFFFF;
+            --text-gray: #B0B0B0;
+            --border-gray: #404040;
         }
 
         * {
@@ -33,15 +32,15 @@
 
         body {
             font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--surface) 100%);
-            color: var(--text-primary);
+            background: var(--primary-black);
+            color: var(--text-white);
             overflow: hidden;
             height: 100vh;
             user-select: none;
             -webkit-user-select: none;
         }
 
-        /* Background animated grid */
+        /* Background pattern simple */
         body::before {
             content: '';
             position: fixed;
@@ -50,24 +49,11 @@
             right: 0;
             bottom: 0;
             background-image:
-                linear-gradient(90deg, rgba(255, 215, 0, 0.04) 1px, transparent 1px),
-                linear-gradient(rgba(255, 215, 0, 0.04) 1px, transparent 1px);
-            background-size: 60px 60px;
+                linear-gradient(90deg, rgba(255, 193, 7, 0.02) 1px, transparent 1px),
+                linear-gradient(rgba(255, 193, 7, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
             pointer-events: none;
-            opacity: 0.5;
-            animation: gridPulse 8s ease-in-out infinite;
-        }
-
-        @keyframes gridPulse {
-
-            0%,
-            100% {
-                opacity: 0.3;
-            }
-
-            50% {
-                opacity: 0.6;
-            }
+            opacity: 0.3;
         }
 
         /* ========== LAYOUT RESPONSIVE ========== */
@@ -135,8 +121,8 @@
         /* Header */
         .header {
             grid-column: 1 / -1;
-            background: linear-gradient(180deg, var(--surface) 0%, var(--surface-light) 100%);
-            border-bottom: 2px solid var(--border);
+            background: var(--secondary-black);
+            border-bottom: 3px solid var(--primary-yellow);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -159,64 +145,26 @@
             object-fit: contain;
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            animation: scanLine 3s linear infinite;
-        }
-
-        @keyframes scanLine {
-            0% {
-                transform: translateX(-100%);
-            }
-
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        .logo-container {
-            text-align: center;
-            animation: fadeInDown 0.8s ease-out;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
         /* Estilos para la información del usuario */
         #current-user {
-            color: var(--accent);
+            color: var(--primary-yellow);
             font-size: 14px;
             margin-bottom: 10px;
             text-align: center;
             font-weight: 600;
             padding: 8px;
-            background: rgba(255, 215, 0, 0.1);
-            border-radius: 8px;
-            border: 1px solid var(--border);
+            background: var(--tertiary-black);
+            border-radius: 4px;
+            border: 2px solid var(--primary-yellow);
             line-height: 1.4;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        /* Badges para roles - NUEVOS COLORES */
+        /* Badges para roles - COLORES SÓLIDOS */
         .role-badge {
             padding: 3px 8px;
-            border-radius: 12px;
+            border-radius: 3px;
             font-size: 11px;
             font-weight: bold;
             margin-left: 6px;
@@ -224,119 +172,72 @@
         }
 
         .admin-badge {
-            background: #FFD700;
-            /* Dorado - Máximo poder */
-            color: #000;
-            box-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+            background: var(--primary-yellow);
+            color: var(--primary-black);
         }
 
         .directivo-badge {
             background: #9C27B0;
-            /* Púrpura - Alta dirección */
             color: white;
-            box-shadow: 0 0 8px rgba(156, 39, 176, 0.3);
         }
 
         .comite-badge {
             background: #2196F3;
-            /* Azul profesional - Comité */
             color: white;
-            box-shadow: 0 0 8px rgba(33, 150, 243, 0.3);
         }
 
         .adn-badge {
             background: #4CAF50;
-            /* Verde - Grupo ADN */
             color: white;
-            box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
         }
 
         .empleado-badge {
             background: #607D8B;
-            /* Gris azulado - Empleado base */
             color: white;
-            box-shadow: 0 0 8px rgba(96, 125, 139, 0.3);
         }
 
         /* Sidebar Navigation */
         .sidebar {
-            background: var(--surface-light);
-            border-right: 2px solid var(--border);
+            background: var(--secondary-black);
+            border-right: 3px solid var(--primary-yellow);
             padding: 25px 20px;
             display: flex;
             flex-direction: column;
             gap: 15px;
             position: relative;
-            animation: slideInLeft 0.8s ease-out;
             min-height: 0;
             overflow: hidden;
-        }
-
-        @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-50px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .sidebar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 2px;
-            height: 100%;
-            background: linear-gradient(180deg, transparent, var(--accent), transparent);
-            opacity: 0.3;
         }
 
         .nav-title {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 28px;
             letter-spacing: 2px;
-            color: var(--accent);
+            color: var(--primary-yellow);
             margin-bottom: 15px;
             padding-left: 10px;
             text-align: center;
+            border-bottom: 2px solid var(--primary-yellow);
+            padding-bottom: 10px;
         }
 
         .nav-button {
-            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
-            border: 2px solid var(--border);
-            color: var(--text-primary);
+            background: var(--tertiary-black);
+            border: 2px solid var(--border-gray);
+            color: var(--text-white);
             padding: 22px 25px;
             font-size: 22px;
             font-weight: 600;
             font-family: 'Outfit', sans-serif;
-            border-radius: 10px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             position: relative;
             overflow: hidden;
             text-align: left;
             letter-spacing: 1px;
             width: 100%;
             white-space: nowrap;
-        }
-
-        .nav-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .nav-button:hover::before {
-            left: 100%;
         }
 
         .nav-button::after {
@@ -346,30 +247,30 @@
             right: 20px;
             width: 8px;
             height: 8px;
-            border-right: 2px solid var(--accent);
-            border-bottom: 2px solid var(--accent);
+            border-right: 2px solid var(--primary-yellow);
+            border-bottom: 2px solid var(--primary-yellow);
             transform: translateY(-50%) rotate(-45deg);
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .nav-button:hover {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--surface) 100%);
-            border-color: var(--accent);
-            transform: translateX(8px);
-            box-shadow: 0 8px 25px var(--accent-glow);
+            background: var(--primary-black);
+            border-color: var(--primary-yellow);
+            transform: translateX(5px);
         }
 
         .nav-button:active {
-            transform: translateX(8px) scale(0.98);
+            transform: translateX(5px) scale(0.98);
         }
 
         .nav-button.active {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--surface) 100%);
-            border-color: var(--accent);
-            box-shadow: 0 0 20px var(--accent-glow), inset 0 0 15px rgba(255, 215, 0, 0.1);
+            background: var(--primary-yellow);
+            color: var(--primary-black);
+            border-color: var(--primary-yellow);
         }
 
         .nav-button.active::after {
+            border-color: var(--primary-black);
             right: 18px;
         }
 
@@ -386,12 +287,12 @@
         }
 
         .nav-buttons-container::-webkit-scrollbar-track {
-            background: var(--surface);
+            background: var(--tertiary-black);
             border-radius: 3px;
         }
 
         .nav-buttons-container::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
+            background: var(--primary-yellow);
             border-radius: 3px;
         }
 
@@ -399,8 +300,8 @@
         .content {
             padding: 35px 45px;
             overflow-y: auto;
-            animation: fadeIn 1s ease-out;
             height: 100%;
+            background: var(--primary-black);
         }
 
         .content.full-iframe {
@@ -413,28 +314,18 @@
             border: none;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
         .content::-webkit-scrollbar {
             width: 10px;
         }
 
         .content::-webkit-scrollbar-track {
-            background: var(--surface);
-            border-radius: 8px;
+            background: var(--secondary-black);
+            border-radius: 4px;
         }
 
         .content::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
-            border-radius: 8px;
+            background: var(--primary-yellow);
+            border-radius: 4px;
         }
 
         .welcome-screen {
@@ -447,77 +338,32 @@
             padding: 20px;
         }
 
-        /* Logo animado con imagen grande y halo blanco */
+        /* Logo animado simple */
         .logo-animado {
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-bottom: 50px;
-            animation: pulse-gentle 3s ease-in-out infinite;
+            padding: 30px;
+            background: var(--secondary-black);
+            border: 3px solid var(--primary-yellow);
+            border-radius: 8px;
         }
 
-        /* Halo blanco sutil alrededor */
-        .logo-animado::before {
-            content: '';
-            position: absolute;
-            width: 280px;
-            height: 280px;
-            border-radius: 50%;
-            background: radial-gradient(circle at center,
-                    rgba(255, 255, 255, 0.25) 0%,
-                    rgba(255, 255, 255, 0.15) 30%,
-                    rgba(255, 255, 255, 0.05) 50%,
-                    transparent 70%);
-            z-index: 1;
-            animation: halo-pulse 4s ease-in-out infinite;
-        }
-
-        /* IMAGEN MÁS GRANDE */
         .logo-animado img {
             width: 240px;
             height: 240px;
             object-fit: contain;
             position: relative;
             z-index: 2;
-            filter: brightness(1.05) contrast(1.1);
-        }
-
-        @keyframes pulse-gentle {
-
-            0%,
-            100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.03);
-            }
-        }
-
-        @keyframes halo-pulse {
-
-            0%,
-            100% {
-                opacity: 0.7;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.9;
-                transform: scale(1.05);
-            }
         }
 
         /* Versión responsive para mantener proporciones */
         @media (max-height: 800px) {
             .logo-animado {
                 margin-bottom: 40px;
-            }
-
-            .logo-animado::before {
-                width: 230px;
-                height: 230px;
+                padding: 25px;
             }
 
             .logo-animado img {
@@ -529,11 +375,7 @@
         @media (max-height: 600px) {
             .logo-animado {
                 margin-bottom: 30px;
-            }
-
-            .logo-animado::before {
-                width: 200px;
-                height: 200px;
+                padding: 20px;
             }
 
             .logo-animado img {
@@ -547,16 +389,13 @@
             font-size: 52px;
             letter-spacing: 3px;
             margin-bottom: 15px;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: var(--text-white);
             line-height: 1.2;
         }
 
         .welcome-text {
             font-size: 22px;
-            color: var(--text-secondary);
+            color: var(--text-gray);
             max-width: 600px;
             line-height: 1.5;
             font-weight: 300;
@@ -565,21 +404,21 @@
         .content-header {
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 2px solid var(--border);
+            border-bottom: 3px solid var(--primary-yellow);
         }
 
         .content-title {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 46px;
             letter-spacing: 2px;
-            color: var(--accent);
+            color: var(--primary-yellow);
             margin-bottom: 8px;
             line-height: 1.2;
         }
 
         .content-subtitle {
             font-size: 18px;
-            color: var(--text-secondary);
+            color: var(--text-gray);
             font-weight: 300;
             line-height: 1.4;
         }
@@ -593,24 +432,23 @@
         }
 
         .video-item {
-            background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
-            border: 2px solid var(--border);
-            border-radius: 14px;
+            background: var(--secondary-black);
+            border: 2px solid var(--border-gray);
+            border-radius: 4px;
             padding: 18px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             overflow: hidden;
         }
 
         .video-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px var(--shadow);
-            border-color: var(--accent);
+            transform: translateY(-3px);
+            border-color: var(--primary-yellow);
         }
 
         .video-item iframe {
             width: 100%;
             height: 200px;
-            border-radius: 10px;
+            border-radius: 4px;
             border: none;
         }
 
@@ -618,67 +456,37 @@
             text-align: center;
             margin-top: 12px;
             font-size: 18px;
-            color: var(--text-primary);
+            color: var(--text-white);
             font-weight: 500;
-        }
-
-        /* Utility animations */
-        .fade-in {
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        /* Touch feedback */
-        .touch-feedback {
-            position: fixed;
-            pointer-events: none;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            animation: ripple 0.6s ease-out;
-            z-index: 9999;
-        }
-
-        @keyframes ripple {
-            from {
-                width: 0;
-                height: 0;
-                opacity: 1;
-            }
-
-            to {
-                width: 200px;
-                height: 200px;
-                opacity: 0;
-            }
         }
 
         /* Estilos para el logout - FIJADO EN LA PARTE INFERIOR */
         .user-section {
             margin-top: auto;
             padding-top: 20px;
-            border-top: 1px solid var(--border);
+            border-top: 2px solid var(--primary-yellow);
             flex-shrink: 0;
         }
 
         #logout-btn {
             background: transparent;
-            border: 2px solid var(--accent);
-            color: var(--accent);
+            border: 2px solid var(--primary-yellow);
+            color: var(--primary-yellow);
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 4px;
             cursor: pointer;
             width: 100%;
             font-size: 16px;
             font-family: 'Outfit', sans-serif;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             letter-spacing: 1px;
             white-space: nowrap;
         }
 
         #logout-btn:hover {
-            background: var(--accent);
-            color: var(--primary);
-            box-shadow: 0 0 15px var(--accent-glow);
+            background: var(--primary-yellow);
+            color: var(--primary-black);
         }
 
         /* Scroll personalizado para navegadores modernos */
@@ -687,19 +495,19 @@
         }
 
         .sidebar::-webkit-scrollbar-track {
-            background: var(--surface);
+            background: var(--tertiary-black);
             border-radius: 3px;
         }
 
         .sidebar::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dark) 100%);
+            background: var(--primary-yellow);
             border-radius: 3px;
         }
 
         /* Para Firefox */
         .sidebar {
             scrollbar-width: thin;
-            scrollbar-color: var(--accent) var(--surface);
+            scrollbar-color: var(--primary-yellow) var(--tertiary-black);
         }
 
         /* ========== ESTILOS PARA CUMPLEAÑOS ========== */
@@ -715,24 +523,25 @@
             align-items: center;
             gap: 15px;
             padding: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            transition: all 0.3s ease;
+            background: var(--secondary-black);
+            border-radius: 4px;
+            border: 2px solid var(--border-gray);
+            transition: all 0.2s ease;
         }
 
         .birthday-item:hover {
-            background: rgba(255, 215, 0, 0.1);
-            transform: translateX(5px);
+            background: var(--tertiary-black);
+            border-color: var(--primary-yellow);
+            transform: translateX(3px);
         }
 
         .birthday-photo {
             width: 60px;
             height: 60px;
-            border-radius: 10px;
+            border-radius: 4px;
             object-fit: cover;
-            border: 2px solid var(--accent);
-            background: var(--surface);
+            border: 2px solid var(--primary-yellow);
+            background: var(--tertiary-black);
         }
 
         .birthday-info {
@@ -741,31 +550,31 @@
 
         .birthday-name {
             font-weight: 600;
-            color: var(--text-primary);
+            color: var(--text-white);
             font-size: 16px;
             margin-bottom: 3px;
         }
 
         .birthday-date {
-            color: var(--accent);
+            color: var(--primary-yellow);
             font-size: 14px;
             font-weight: 500;
         }
 
         .birthday-department {
-            color: var(--text-secondary);
+            color: var(--text-gray);
             font-size: 13px;
             margin-top: 2px;
         }
 
         .no-birthdays {
             text-align: center;
-            color: var(--text-secondary);
+            color: var(--text-gray);
             font-style: italic;
             padding: 30px;
-            background: rgba(255, 215, 0, 0.05);
-            border-radius: 10px;
-            border: 1px dashed var(--border);
+            background: var(--secondary-black);
+            border-radius: 4px;
+            border: 2px dashed var(--border-gray);
         }
 
         /* ========== ESTILOS RESPONSIVE PARA RH ========== */
@@ -787,9 +596,9 @@
 
         /* Estilos para las tarjetas */
         .rh-card {
-            background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
-            border: 2px solid var(--border);
-            border-radius: 16px;
+            background: var(--secondary-black);
+            border: 2px solid var(--border-gray);
+            border-radius: 4px;
             padding: 30px;
         }
 
@@ -797,19 +606,21 @@
             font-family: 'Bebas Neue', sans-serif;
             font-size: 36px;
             letter-spacing: 2px;
-            color: var(--accent);
+            color: var(--primary-yellow);
             margin-bottom: 20px;
             text-align: center;
+            border-bottom: 2px solid var(--primary-yellow);
+            padding-bottom: 10px;
         }
 
         /* Imagen del menú */
         .menu-image-container {
             width: 100%;
             height: 500px;
-            border-radius: 12px;
+            border-radius: 4px;
             overflow: hidden;
-            border: 2px solid var(--border);
-            background: var(--surface);
+            border: 2px solid var(--border-gray);
+            background: var(--tertiary-black);
         }
 
         .menu-image-container img {
@@ -821,7 +632,7 @@
         .menu-updated {
             text-align: center;
             margin-top: 20px;
-            color: var(--text-secondary);
+            color: var(--text-gray);
             font-size: 16px;
         }
 
@@ -840,23 +651,22 @@
             left: 20px;
             width: 50px;
             height: 50px;
-            background: var(--surface-light);
-            border: 2px solid var(--border);
-            border-radius: 10px;
+            background: var(--secondary-black);
+            border: 2px solid var(--primary-yellow);
+            border-radius: 4px;
             z-index: 1000;
             cursor: pointer;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             gap: 6px;
-            box-shadow: 0 4px 15px var(--shadow);
         }
 
         .mobile-menu-toggle span {
             display: block;
             width: 25px;
             height: 3px;
-            background: var(--accent);
+            background: var(--primary-yellow);
             border-radius: 2px;
             transition: all 0.3s ease;
         }
@@ -883,12 +693,10 @@
             bottom: 0;
             background: rgba(0, 0, 0, 0.8);
             z-index: 999;
-            backdrop-filter: blur(5px);
         }
 
         .mobile-sidebar-overlay.active {
             display: block;
-            animation: fadeIn 0.3s ease-out;
         }
 
         /* Mobile sidebar */
@@ -898,8 +706,8 @@
             left: -280px;
             width: 280px;
             height: 100%;
-            background: var(--surface-light);
-            border-right: 2px solid var(--border);
+            background: var(--secondary-black);
+            border-right: 3px solid var(--primary-yellow);
             z-index: 1000;
             transition: left 0.3s ease;
             display: flex;
@@ -910,37 +718,35 @@
 
         .mobile-sidebar.active {
             left: 0;
-            box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
         }
 
         .mobile-user-section {
             margin-top: auto;
             padding-top: 20px;
-            border-top: 1px solid var(--border);
+            border-top: 2px solid var(--primary-yellow);
         }
 
         /* Botón de logout para móvil - CON CSS COMPLETO */
         #logout-btn-mobile {
             background: transparent;
-            border: 2px solid var(--accent);
-            color: var(--accent);
+            border: 2px solid var(--primary-yellow);
+            color: var(--primary-yellow);
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 4px;
             cursor: pointer;
             width: 100%;
             font-size: 16px;
             font-family: 'Outfit', sans-serif;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             letter-spacing: 1px;
             white-space: nowrap;
             margin-top: 10px;
         }
 
         #logout-btn-mobile:hover {
-            background: var(--accent);
-            color: var(--primary);
-            box-shadow: 0 0 15px var(--accent-glow);
+            background: var(--primary-yellow);
+            color: var(--primary-black);
         }
 
         /* Responsive */
@@ -980,11 +786,6 @@
             .welcome-text {
                 font-size: 18px;
                 padding: 0 15px;
-            }
-
-            .logo-animado::before {
-                width: 200px;
-                height: 200px;
             }
 
             .logo-animado img {
@@ -1060,11 +861,10 @@
             }
         }
 
-        /* Agrega esto en tu sección de estilos <style> */
         @media (max-width: 768px) {
             .acordeon-header {
                 cursor: pointer !important;
-                -webkit-tap-highlight-color: rgba(255, 215, 0, 0.3) !important;
+                -webkit-tap-highlight-color: rgba(255, 193, 7, 0.3) !important;
                 user-select: none !important;
                 -webkit-user-select: none !important;
                 padding: 25px 20px !important;
@@ -1073,28 +873,24 @@
                 align-items: center !important;
                 justify-content: space-between !important;
                 touch-action: manipulation;
-                /* Mejora rendimiento táctil */
             }
 
             .acordeon-content {
                 transition: max-height 0.4s ease !important;
                 overflow: hidden !important;
                 will-change: max-height;
-                /* Mejora rendimiento de animación */
             }
 
             .acordeon-content.active {
                 max-height: 5000px !important;
             }
 
-            /* Mejorar feedback táctil */
             .acordeon-header:active {
-                background: linear-gradient(135deg, var(--secondary) 0%, var(--surface) 100%) !important;
+                background: var(--tertiary-black) !important;
                 transform: scale(0.98) !important;
                 transition: transform 0.1s ease !important;
             }
 
-            /* Evitar selección de texto en móvil */
             .acordeon-header * {
                 user-select: none !important;
                 -webkit-user-select: none !important;
@@ -1151,33 +947,33 @@
         /* Acordeón/Desplegable */
         .acordeon {
             margin-bottom: 25px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
+            border: 2px solid var(--border-gray);
+            border-radius: 4px;
             overflow: hidden;
-            background: var(--surface-light);
+            background: var(--secondary-black);
         }
 
         .acordeon-header {
-            background: linear-gradient(135deg, var(--surface) 0%, var(--surface-light) 100%);
+            background: var(--tertiary-black);
             padding: 20px;
             font-family: 'Bebas Neue', sans-serif;
             font-size: 32px;
             letter-spacing: 2px;
-            color: var(--accent);
+            color: var(--primary-yellow);
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             border-bottom: 2px solid transparent;
         }
 
         .acordeon-header:hover {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--surface) 100%);
+            background: var(--secondary-black);
         }
 
         .acordeon-header.active {
-            border-bottom: 2px solid var(--accent);
+            border-bottom: 2px solid var(--primary-yellow);
         }
 
         .acordeon-icon {
@@ -1222,32 +1018,31 @@
             border: none;
             padding: 0;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 10px;
+            transition: all 0.2s ease;
+            border-radius: 4px;
             overflow: hidden;
             position: relative;
         }
 
         .producto-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 10px 25px var(--accent-glow);
+            transform: translateY(-3px);
         }
 
         .producto-btn:active {
-            transform: translateY(-5px) scale(0.98);
+            transform: translateY(-3px) scale(0.98);
         }
 
         .producto-btn img {
             width: 100%;
             height: auto;
             display: block;
-            border-radius: 10px;
-            border: 2px solid var(--border);
-            transition: border-color 0.3s ease;
+            border-radius: 4px;
+            border: 2px solid var(--border-gray);
+            transition: border-color 0.2s ease;
         }
 
         .producto-btn:hover img {
-            border-color: var(--accent);
+            border-color: var(--primary-yellow);
         }
 
         /* Overlay para el botón */
@@ -1256,15 +1051,15 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0, 0, 0, 0.8);
-            color: var(--accent);
+            background: var(--primary-black);
+            color: var(--primary-yellow);
             padding: 8px;
             text-align: center;
             font-size: 14px;
             font-weight: 600;
             opacity: 0;
-            transition: opacity 0.3s ease;
-            border-radius: 0 0 8px 8px;
+            transition: opacity 0.2s ease;
+            border-radius: 0 0 4px 4px;
         }
 
         .producto-btn:hover .producto-overlay {
@@ -1279,11 +1074,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             z-index: 9999;
             justify-content: center;
             align-items: center;
-            animation: fadeIn 0.3s ease;
         }
 
         .modal-overlay.active {
@@ -1291,38 +1085,25 @@
         }
 
         .modal-content {
-            background: linear-gradient(135deg, var(--surface-light) 0%, var(--surface) 100%);
-            border: 2px solid var(--accent);
-            border-radius: 16px;
+            background: var(--secondary-black);
+            border: 3px solid var(--primary-yellow);
+            border-radius: 4px;
             padding: 30px;
             max-width: 500px;
             width: 90%;
             text-align: center;
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
         .modal-title {
             font-family: 'Bebas Neue', sans-serif;
             font-size: 36px;
-            color: var(--accent);
+            color: var(--primary-yellow);
             margin-bottom: 20px;
             letter-spacing: 2px;
         }
 
         .modal-text {
-            color: var(--text-secondary);
+            color: var(--text-gray);
             margin-bottom: 25px;
             font-size: 18px;
             line-height: 1.5;
@@ -1336,42 +1117,40 @@
 
         .modal-btn {
             padding: 12px 30px;
-            border-radius: 8px;
-            border: 2px solid var(--accent);
+            border-radius: 4px;
+            border: 2px solid var(--primary-yellow);
             background: transparent;
-            color: var(--accent);
+            color: var(--primary-yellow);
             font-family: 'Outfit', sans-serif;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
             flex: 1;
         }
 
         .modal-btn:hover {
-            background: var(--accent);
-            color: var(--primary);
-            box-shadow: 0 0 15px var(--accent-glow);
+            background: var(--primary-yellow);
+            color: var(--primary-black);
         }
 
         .modal-btn.cancel {
-            border-color: var(--text-secondary);
-            color: var(--text-secondary);
+            border-color: var(--text-gray);
+            color: var(--text-gray);
         }
 
         .modal-btn.cancel:hover {
-            background: var(--text-secondary);
-            color: var(--primary);
+            background: var(--text-gray);
+            color: var(--primary-black);
         }
 
-        /* Agrega esto a tu sección de estilos CSS */
         .loading {
             display: inline-block;
             width: 16px;
             height: 16px;
-            border: 2px solid rgba(255, 204, 0, 0.3);
+            border: 2px solid rgba(255, 193, 7, 0.3);
             border-radius: 50%;
-            border-top-color: #ffcc00;
+            border-top-color: var(--primary-yellow);
             animation: spin 1s ease-in-out infinite;
             vertical-align: middle;
         }
@@ -1380,6 +1159,52 @@
             to {
                 transform: rotate(360deg);
             }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* ========== ESTILOS MEJORADOS PARA ACORDEONES ========== */
+        .acordeon-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.5s ease;
+            display: none;
+            /* Ocultar inicialmente */
+        }
+
+        .acordeon-content.active {
+            display: block;
+            /* Mostrar cuando esté activo */
+            padding: 25px;
+            max-height: none !important;
+            /* NO usar max-height para expandir */
+        }
+
+        /* Para animación suave de cierre */
+        .acordeon-content:not(.active) {
+            transition: max-height 0.5s ease, padding 0.5s ease;
+        }
+
+        /* Asegurar que el grid de productos tenga su altura natural */
+        .productos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 10px;
+            /* No establecer height aquí, déjalo que sea automático */
         }
     </style>
 </head>
@@ -2068,7 +1893,7 @@
             });
         }
 
-        // Función para manejar acordeones - VERSIÓN COMPATIBLE CON MÓVIL
+        // Función para manejar acordeones - VERSIÓN CORREGIDA
         function setupAcordeones() {
             console.log('🔧 Configurando acordeones...');
 
@@ -2076,17 +1901,8 @@
             const acordeonHeaders = document.querySelectorAll('.acordeon-header');
             console.log('Acordeones encontrados:', acordeonHeaders.length);
 
-            // Remover event listeners anteriores si existen
-            acordeonHeaders.forEach(header => {
-                // Crear nuevo elemento para limpiar listeners
-                const newHeader = header.cloneNode(true);
-                header.parentNode.replaceChild(newHeader, header);
-            });
-
-            // Volver a seleccionar después del reemplazo
-            const refreshedHeaders = document.querySelectorAll('.acordeon-header');
-
-            refreshedHeaders.forEach((header, index) => {
+            // Configurar cada acordeón
+            acordeonHeaders.forEach((header, index) => {
                 console.log(`Configurando acordeón ${index}:`, header.textContent.trim());
 
                 // Agregar atributos para accesibilidad
@@ -2104,7 +1920,7 @@
                     header.style.justifyContent = 'space-between';
                 }
 
-                // Evento para click (mouse y toque en navegadores modernos)
+                // Evento para click
                 header.addEventListener('click', function (e) {
                     console.log('🖱️ Click en acordeón:', this.textContent.trim());
                     toggleAcordeon.call(this, e);
@@ -2117,27 +1933,10 @@
                         toggleAcordeon.call(this, e);
                     }
                 });
-
-                // Evento específico para touch (móvil)
-                header.addEventListener('touchstart', function (e) {
-                    console.log('📱 Touch en acordeón:', this.textContent.trim());
-                    // Marcar como tocado para feedback visual
-                    this.classList.add('touched');
-                }, { passive: true });
-
-                header.addEventListener('touchend', function (e) {
-                    e.preventDefault();
-                    console.log('📱 Touch end en acordeón');
-                    toggleAcordeon.call(this, e);
-                    this.classList.remove('touched');
-                }, { passive: false });
             });
 
             function toggleAcordeon(e) {
-                // Prevenir comportamiento por defecto si es necesario
-                if (e.cancelable) {
-                    e.preventDefault();
-                }
+                e.preventDefault();
                 e.stopPropagation();
 
                 const targetId = this.getAttribute('data-acordeon');
@@ -2158,7 +1957,7 @@
 
                 if (!isActive) {
                     // Cerrar otros acordeones
-                    refreshedHeaders.forEach(otherHeader => {
+                    document.querySelectorAll('.acordeon-header').forEach(otherHeader => {
                         if (otherHeader !== this) {
                             otherHeader.classList.remove('active');
                             otherHeader.setAttribute('aria-expanded', 'false');
@@ -2166,7 +1965,6 @@
                             const otherContent = document.getElementById(`${otherTarget}-content`);
                             if (otherContent) {
                                 otherContent.classList.remove('active');
-                                otherContent.style.maxHeight = null;
                             }
                         }
                     });
@@ -2174,14 +1972,24 @@
                     // Abrir este acordeón
                     this.classList.add('active');
                     content.classList.add('active');
+
+                    // FORZAR un reflow para que la animación funcione correctamente
+                    content.style.display = 'block';
+                    content.offsetHeight; // Esto fuerza un reflow
                     content.style.maxHeight = content.scrollHeight + 'px';
 
                     console.log('✅ Acordeón abierto:', targetId);
                 } else {
                     // Cerrar este acordeón
                     this.classList.remove('active');
-                    content.classList.remove('active');
-                    content.style.maxHeight = null;
+                    content.style.maxHeight = '0px';
+
+                    // Esperar a que termine la animación antes de ocultar completamente
+                    setTimeout(() => {
+                        if (!this.classList.contains('active')) {
+                            content.classList.remove('active');
+                        }
+                    }, 500); // Debe coincidir con la duración de la transición CSS
 
                     console.log('✅ Acordeón cerrado:', targetId);
                 }

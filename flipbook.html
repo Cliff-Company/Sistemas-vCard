@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>FlipBook PDF</title>
+    <title>Reglamento</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -418,164 +418,165 @@
 </head>
 
 <body>
+
     <body>
-    <div class="app-container">
-        <div class="zoom-wrapper">
-            <div id="book"></div>
+        <div class="app-container">
+            <div class="zoom-wrapper">
+                <div id="book"></div>
+            </div>
         </div>
-    </div>
 
-    <script src="vendor/pageflip/page-flip.browser.js"></script>
+        <script src="vendor/pageflip/page-flip.browser.js"></script>
 
-    <!-- App -->
-    <script type="module" src="assets/js/app.js"></script>
+        <!-- App -->
+        <script type="module" src="assets/js/app.js"></script>
 
-    <script>
-        let lastTouchX = 0;
-        let lastTouchY = 0;
-        const wrapper = document.querySelector(".zoom-wrapper");
+        <script>
+            let lastTouchX = 0;
+            let lastTouchY = 0;
+            const wrapper = document.querySelector(".zoom-wrapper");
 
-        let scale = 1;
-        const MIN_SCALE = 1;
-        const MAX_SCALE = 3;
+            let scale = 1;
+            const MIN_SCALE = 1;
+            const MAX_SCALE = 3;
 
-        let isPanning = false;
-        let startX = 0;
-        let startY = 0;
-        let translateX = 0;
-        let translateY = 0;
-        let startDistance = 0;
+            let isPanning = false;
+            let startX = 0;
+            let startY = 0;
+            let translateX = 0;
+            let translateY = 0;
+            let startDistance = 0;
 
-        /* =====================
-           UTIL
-        ===================== */
-        function applyTransform() {
-            wrapper.style.transform =
-                `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+            /* =====================
+               UTIL
+            ===================== */
+            function applyTransform() {
+                wrapper.style.transform =
+                    `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 
-            if (scale > 1) {
-                wrapper.classList.add("zoomed");
-            } else {
-                resetPosition();
+                if (scale > 1) {
+                    wrapper.classList.add("zoomed");
+                } else {
+                    resetPosition();
+                }
             }
-        }
 
-        function resetPosition() {
-            scale = 1;
-            translateX = 0;
-            translateY = 0;
-            wrapper.style.transform = "translate(0,0) scale(1)";
-            wrapper.classList.remove("zoomed");
-        }
+            function resetPosition() {
+                scale = 1;
+                translateX = 0;
+                translateY = 0;
+                wrapper.style.transform = "translate(0,0) scale(1)";
+                wrapper.classList.remove("zoomed");
+            }
 
-        /* =====================
-           PC ZOOM
-        ===================== */
-        wrapper.addEventListener("wheel", (e) => {
-            e.preventDefault();
-
-            scale += e.deltaY * -0.0015;
-            scale = Math.min(Math.max(MIN_SCALE, scale), MAX_SCALE);
-
-            applyTransform();
-        }, { passive: false });
-
-        /* =====================
-           PC PAN
-        ===================== */
-        wrapper.addEventListener("mousedown", (e) => {
-            if (scale <= 1) return;
-
-            isPanning = true;
-            startX = e.clientX - translateX;
-            startY = e.clientY - translateY;
-
-            e.preventDefault();
-            e.stopPropagation();
-        });
-
-        window.addEventListener("mousemove", (e) => {
-            if (!isPanning) return;
-
-            translateX = e.clientX - startX;
-            translateY = e.clientY - startY;
-
-            applyTransform();
-        });
-
-        window.addEventListener("mouseup", () => {
-            isPanning = false;
-        });
-
-        /* =====================
-           MOBILE PINCH
-        ===================== */
-        wrapper.addEventListener("touchstart", (e) => {
-            if (e.touches.length === 2) {
-                startDistance = getDistance(e.touches);
+            /* =====================
+               PC ZOOM
+            ===================== */
+            wrapper.addEventListener("wheel", (e) => {
                 e.preventDefault();
-                e.stopPropagation();
-            }
-        }, { passive: false });
 
-        wrapper.addEventListener("touchmove", (e) => {
-            if (e.touches.length === 2) {
-                const newDistance = getDistance(e.touches);
-                scale += (newDistance - startDistance) * 0.004;
+                scale += e.deltaY * -0.0015;
                 scale = Math.min(Math.max(MIN_SCALE, scale), MAX_SCALE);
-                startDistance = newDistance;
 
                 applyTransform();
+            }, { passive: false });
+
+            /* =====================
+               PC PAN
+            ===================== */
+            wrapper.addEventListener("mousedown", (e) => {
+                if (scale <= 1) return;
+
+                isPanning = true;
+                startX = e.clientX - translateX;
+                startY = e.clientY - translateY;
+
                 e.preventDefault();
                 e.stopPropagation();
+            });
+
+            window.addEventListener("mousemove", (e) => {
+                if (!isPanning) return;
+
+                translateX = e.clientX - startX;
+                translateY = e.clientY - startY;
+
+                applyTransform();
+            });
+
+            window.addEventListener("mouseup", () => {
+                isPanning = false;
+            });
+
+            /* =====================
+               MOBILE PINCH
+            ===================== */
+            wrapper.addEventListener("touchstart", (e) => {
+                if (e.touches.length === 2) {
+                    startDistance = getDistance(e.touches);
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }, { passive: false });
+
+            wrapper.addEventListener("touchmove", (e) => {
+                if (e.touches.length === 2) {
+                    const newDistance = getDistance(e.touches);
+                    scale += (newDistance - startDistance) * 0.004;
+                    scale = Math.min(Math.max(MIN_SCALE, scale), MAX_SCALE);
+                    startDistance = newDistance;
+
+                    applyTransform();
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+            }, { passive: false });
+
+            /* =====================
+               MOBILE PAN
+            ===================== */
+
+            wrapper.addEventListener("touchstart", (e) => {
+                if (scale <= 1 || e.touches.length !== 1) return;
+
+                lastTouchX = e.touches[0].clientX;
+                lastTouchY = e.touches[0].clientY;
+
+                e.preventDefault();
+                e.stopPropagation();
+            }, { passive: false });
+
+            wrapper.addEventListener("touchmove", (e) => {
+                if (scale <= 1 || e.touches.length !== 1) return;
+
+                const touch = e.touches[0];
+
+                const deltaX = touch.clientX - lastTouchX;
+                const deltaY = touch.clientY - lastTouchY;
+
+                translateX += deltaX;
+                translateY += deltaY;
+
+                lastTouchX = touch.clientX;
+                lastTouchY = touch.clientY;
+
+                applyTransform();
+
+                e.preventDefault();
+                e.stopPropagation();
+            }, { passive: false });
+
+            /* =====================
+               HELPERS
+            ===================== */
+            function getDistance(touches) {
+                const dx = touches[0].clientX - touches[1].clientX;
+                const dy = touches[0].clientY - touches[1].clientY;
+                return Math.sqrt(dx * dx + dy * dy);
             }
-        }, { passive: false });
+        </script>
 
-        /* =====================
-           MOBILE PAN
-        ===================== */
-
-        wrapper.addEventListener("touchstart", (e) => {
-            if (scale <= 1 || e.touches.length !== 1) return;
-
-            lastTouchX = e.touches[0].clientX;
-            lastTouchY = e.touches[0].clientY;
-
-            e.preventDefault();
-            e.stopPropagation();
-        }, { passive: false });
-
-        wrapper.addEventListener("touchmove", (e) => {
-            if (scale <= 1 || e.touches.length !== 1) return;
-
-            const touch = e.touches[0];
-
-            const deltaX = touch.clientX - lastTouchX;
-            const deltaY = touch.clientY - lastTouchY;
-
-            translateX += deltaX;
-            translateY += deltaY;
-
-            lastTouchX = touch.clientX;
-            lastTouchY = touch.clientY;
-
-            applyTransform();
-
-            e.preventDefault();
-            e.stopPropagation();
-        }, { passive: false });
-
-        /* =====================
-           HELPERS
-        ===================== */
-        function getDistance(touches) {
-            const dx = touches[0].clientX - touches[1].clientX;
-            const dy = touches[0].clientY - touches[1].clientY;
-            return Math.sqrt(dx * dx + dy * dy);
-        }
-    </script>
-
-</body>
+    </body>
 
 
 </html>
