@@ -1188,6 +1188,26 @@
             animation-delay: 0.44s;
         }
 
+        .intranet-button {
+    margin-top: 16px;
+
+    background: #111111;
+
+    color: #ffffff;
+
+    border: 1px solid rgba(255, 193, 7, 0.5);
+}
+
+.intranet-button::after {
+    background: var(--yellow);
+}
+
+.intranet-button:hover {
+    background: var(--yellow);
+
+    color: #111111;
+}
+
 
         @keyframes fadeUp {
 
@@ -1659,6 +1679,14 @@
 
                 </button>
 
+                <button
+                   class="menu-button intranet-button"
+                   id="intranetButton">
+
+                   INTRANET CLIFF
+            
+                </button>
+
 
             </div>
 
@@ -1926,6 +1954,22 @@
 
             }
         );
+
+        /* =========================================================
+   INTRANET CLIFF
+   ========================================================= */
+
+const intranetButton =
+    document.getElementById("intranetButton");
+
+intranetButton.addEventListener("click", () => {
+
+    window.open(
+        "https://cliff-company.github.io/IntraNet/",
+        "_blank"
+    );
+
+});
 
     </script>
 
