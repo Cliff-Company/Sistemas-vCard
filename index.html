@@ -219,7 +219,7 @@
             position: absolute;
 
             top: 35px;
-            right: calc(var(--menu-width) + 35px);
+            right: calc(var(--menu-width) + 125px);
 
             width: 155px;
 
@@ -721,7 +721,7 @@
         .menu {
             position: fixed;
 
-            top: 50%;
+            top: 56%;
 
             right: 28px;
 
@@ -1046,7 +1046,7 @@
             }
 
             .logo {
-                right: calc(var(--menu-width) + 20px);
+                right: calc(var(--menu-width) + 90px);
             }
 
         }
@@ -1763,7 +1763,7 @@
             document.querySelectorAll(".section");
 
         const menuButtons =
-            document.querySelectorAll(".menu-button");
+            document.querySelectorAll(".menu-button[data-section]");
 
         const progressDots =
             document.querySelectorAll(".progress-dot");
@@ -1962,14 +1962,16 @@
 const intranetButton =
     document.getElementById("intranetButton");
 
-intranetButton.addEventListener("click", () => {
+if (intranetButton) {
+    intranetButton.addEventListener("click", (event) => {
+        event.stopPropagation();
 
-    window.open(
-        "https://cliff-company.github.io/IntraNet/",
-        "_blank"
-    );
-
-});
+        window.open(
+            "https://cliff-company.github.io/IntraNet/",
+            "_blank"
+        );
+    });
+}
 
     </script>
 
