@@ -216,19 +216,19 @@
            ========================================================= */
 
         .logo {
-    position: absolute;
+            position: absolute;
 
-    top: 28px;
-    right: calc(var(--menu-width) + 180px);
+            top: 28px;
+            right: calc(var(--menu-width) + 190px);
 
-    width: 200px;
+            width: 220px;
 
-    z-index: 20;
+            z-index: 20;
 
-    opacity: 0.96;
+            opacity: 0.96;
 
-    transition: opacity 0.4s ease;
-}
+            transition: opacity 0.4s ease;
+        }
 
 
         .logo img {
@@ -316,6 +316,23 @@
 
         .eyebrow span {
             color: var(--yellow-dark);
+        }
+
+        /* Encabezado de Visión: mismo tamaño y jerarquía visual
+           que "Nuestra Promesa de Marca" y "Nuestros Valores". */
+        .vision .eyebrow {
+            font-size: 22px;
+            line-height: 1.2;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 8px;
+            letter-spacing: 0.2px;
+        }
+
+        .vision .eyebrow span {
+            color: var(--yellow-dark);
+            font-size: 22px;
+            font-weight: 600;
         }
 
 
@@ -589,7 +606,7 @@
 
 
         .vision-intro {
-            font-size: 25px;
+            font-size: 24px;
 
             line-height: 1.3;
 
@@ -719,18 +736,18 @@
            ========================================================= */
 
         .menu {
-    position: fixed;
+            position: fixed;
 
-    top: 65%;
+            top: 71%;
 
-    right: 28px;
+            right: 22px;
 
-    transform: translateY(-50%);
+            transform: translateY(-50%);
 
-    width: var(--menu-width);
+            width: var(--menu-width);
 
-    z-index: 50;
-}
+            z-index: 50;
+        }
 
 
         .menu-header {
@@ -1046,9 +1063,9 @@
             }
 
             .logo {
-    right: calc(var(--menu-width) + 120px);
-    width: 180px;
-}
+                right: calc(var(--menu-width) + 140px);
+                width: 190px;
+            }
 
         }
 
@@ -1190,14 +1207,11 @@
         }
 
         .intranet-button {
-    margin-top: 16px;
-
-    background: #111111;
-
-    color: #ffffff;
-
-    border: 1px solid rgba(255, 193, 7, 0.5);
-}
+            margin-top: 18px;
+            background: #111111;
+            color: #ffffff;
+            border: 1px solid rgba(255, 193, 7, 0.5);
+        }
 
 .intranet-button::after {
     background: var(--yellow);
@@ -1236,22 +1250,6 @@
             user-select: none;
             -webkit-user-select: none;
         }
-
-        /* =========================================================
-   ENCABEZADO DE VISIÓN
-   ========================================================= */
-
-.vision .eyebrow {
-    font-size: 22px;
-    line-height: 1.2;
-    font-weight: 600;
-    margin-bottom: 4px;
-    letter-spacing: 0.2px;
-}
-
-.vision .eyebrow span {
-    color: var(--yellow-dark);
-}
 
     </style>
 
